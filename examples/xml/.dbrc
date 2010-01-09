@@ -1,0 +1,30 @@
+<dbrc>
+   <database name="foo">
+      <user>user1</user>
+      <password>pwd1</password>
+      <driver>Oracle</driver>
+      <interval>60</interval>
+      <timeout>40</timeout>
+      <maximum_reconnects>3</maximum_reconnects>
+   </database>
+   <database name="foo">
+      <user>user2</user>
+      <password>pwd2</password>
+      <driver>OCI8</driver>
+      <interval>60</interval>
+      <timeout>60</timeout>
+      <maximum_reconnects>4</maximum_reconnects>
+   </database>
+   <database name="bar">
+      <user>user1</user>
+      <password>pwd3</password>
+      <driver>Oracle</driver>
+      <interval>30</interval>
+      <timeout>30</timeout>
+      <maximum_reconnects>2</maximum_reconnects>
+   </database>
+   <database name="baz">
+      <user>user3</user>
+      <password>pwd4</password>
+   </database>
+</dbrc>
