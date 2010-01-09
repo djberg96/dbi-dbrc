@@ -10,6 +10,9 @@
    * win32-file (MS Windows only)
    * win32-dir (MS Windows only)
 
+== Installation
+   gem install dbi-dbrc
+
 == Synopsis
    require 'dbi/dbrc'
    include DBI
@@ -28,10 +31,6 @@
    puts dbrc.interval
    puts dbrc.dsn
 
-== Installation
-   rake test (optional)
-   rake install (non-gem) or rake install_gem (gem)
-   
 == Notes on the .dbrc file
    This module relies on a file in your home directory called ".dbrc", and it
    is meant to be analogous to the ".netrc" file used by programs such as
