@@ -14,7 +14,7 @@ namespace :gem do
   end
 
   desc "Install the dbi-dbrc gem"
-  task :install => [:build] do
+  task :install => [:create] do
     gem = Dir["*.gem"].first
     sh "gem install #{gem}"
   end
