@@ -1,3 +1,10 @@
+== 1.1.7 - 6-Oct-2010
+* More robust file decryption/encryption for MS Windows.
+* Better platform checking for MS Windows.
+* Refactored the Rakefile. Removed the old installation tasks and replaced
+  them with a series of gem tasks.
+* Updated the win32 library dependencies.
+
 == 1.1.6 - 10-Sep-2009
 * Fixed validation for dbrc_dir argument.
 * Added a test for bogus dbrc_dir arguments.

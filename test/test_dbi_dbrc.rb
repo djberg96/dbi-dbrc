@@ -36,7 +36,7 @@ class TC_DBI_DBRC < Test::Unit::TestCase
    end
 
    def test_version
-      assert_equal('1.1.6', DBRC::VERSION)
+      assert_equal('1.1.7', DBRC::VERSION)
    end
 
    def test_bad_dbrc_properties
