@@ -19,7 +19,7 @@ module DBI
     class Error < StandardError; end
 
     # The version of the dbi-dbrc library
-    VERSION = '1.1.7'
+    VERSION = '1.1.8'
 
     @@windows = Config::CONFIG['host_os'] =~ /mswin|msdos|win32|mingw|cygwin/i
 

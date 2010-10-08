@@ -2,7 +2,7 @@ require 'rubygems'
 
 Gem::Specification.new do |spec|
   spec.name       = 'dbi-dbrc'
-  spec.version    = '1.1.7'
+  spec.version    = '1.1.8'
   spec.author     = 'Daniel Berger'
   spec.email      = 'djberg96@gmail.com'
   spec.license    = 'Artistic 2.0'
