@@ -99,13 +99,17 @@ module DBI
           end
         end
 
-        # Default to the app data directory on Windows if no home dir found
-        if @@windows && home.nil?
-          @dbrc_file = File.join(File.basename(Dir::APPDATA), '.dbrc')
-        else
-          uid = Process.uid
-          @dbrc_file = File.join(Sys::Admin.get_user(uid).dir, '.dbrc')
+        # Default to the app data directory on Windows, or root on Unix, if
+        # no home dir can be found.
+        if home.nil?
+          if @@windows
+            home = Dir::APPDATA
+          else
+            home = '/'
+          end
         end
+
+        @dbrc_file = File.join(home, '.dbrc')
       else
         raise Error, 'bad directory' unless File.directory?(dbrc_dir)
         @dbrc_file = File.join(dbrc_dir, '.dbrc')
