@@ -1,5 +1,8 @@
 require 'rake'
+require 'rake/clean'
 require 'rake/testtask'
+
+CLEAN.include("**/*.gem", "**/*.rbc")
 
 namespace :gem do
   desc "Remove any gem files."
