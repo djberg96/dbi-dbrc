@@ -4,9 +4,6 @@
 # Test suite for the base class of DBI::DBRC. This test case should be
 # run via the 'rake test' task.
 #########################################################################
-require 'rubygems'
-gem 'test-unit'
-
 require 'dbi/dbrc'
 require 'test/unit'
 include DBI
@@ -36,7 +33,7 @@ class TC_DBI_DBRC < Test::Unit::TestCase
   end
 
   def test_version
-    assert_equal('1.1.8', DBRC::VERSION)
+    assert_equal('1.1.9', DBRC::VERSION)
   end
 
   def test_bad_dbrc_properties

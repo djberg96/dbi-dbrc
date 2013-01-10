@@ -4,11 +4,8 @@
 # Test suite for the YAML specific version of DBI::DBRC. You should run
 # this test case via the 'rake test' task.
 #########################################################################
-require 'rubygems'
-gem 'test-unit'
-
 require 'dbi/dbrc'
-require 'test/unit'
+require 'test-unit'
 include DBI
 
 class TC_DBI_DBRC_YML < Test::Unit::TestCase

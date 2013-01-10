@@ -4,11 +4,8 @@
 # Test suite for the XML specific version of DBI::DBRC. This test case
 # should be run via the 'rake test' task.
 ########################################################################
-require 'rubygems'
-gem 'test-unit'
-
 require 'dbi/dbrc'
-require 'test/unit'
+require 'test-unit'
 require 'rexml/document'
 include REXML
 include DBI

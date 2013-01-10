@@ -1,3 +1,7 @@
+== 1.1.9 - 10-Jan-2013
+* Fixed an unused variable warning.
+* Changed the way I check for MS Windows.
+
 == 1.1.8 - 7-Oct-2010
 * Fixed a logic bug in the constructor that primarily affected MS Windows with
   regards to determining the user's home directory.
