@@ -22,6 +22,7 @@ Gem::Specification.new do |spec|
     spec.add_dependency('win32-dir', '>= 0.3.7')
     spec.add_dependency('win32-process', '>= 0.6.2')
     spec.platform = Gem::Platform::CURRENT
+    spec.platform.cpu = 'universal'
   end
 
   spec.description = <<-EOF
