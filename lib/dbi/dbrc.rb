@@ -1,7 +1,4 @@
-require 'rbconfig'
-require 'rubygems'
-
-if Config::CONFIG['host_os'] =~ /mswin|msdos|win32|mingw|cygwin/i
+if File::ALT_SEPARATOR
   require 'win32/dir'
   require 'win32/file'
   require 'win32/process'
@@ -21,7 +18,7 @@ module DBI
     # The version of the dbi-dbrc library
     VERSION = '1.1.8'
 
-    @@windows = Config::CONFIG['host_os'] =~ /mswin|msdos|win32|mingw|cygwin/i
+    @@windows = File::ALT_SEPARATOR
 
     # The database or host to be connected to.
     attr_accessor :database
@@ -114,11 +111,12 @@ module DBI
         raise Error, 'bad directory' unless File.directory?(dbrc_dir)
         @dbrc_file = File.join(dbrc_dir, '.dbrc')
       end
-         
+
       @dbrc_dir  = dbrc_dir
       @database  = database
       @user      = user
-      encrypted  = false # Win32 only
+
+      file_was_encrypted = false # Win32 only
 
       @driver   = nil
       @interval = nil
@@ -126,7 +124,7 @@ module DBI
       @maximum_reconnects = nil
 
       check_file()
-         
+
       # Decrypt and re-encrypt the file if we're on MS Windows and the
       # file is encrypted.
       begin
@@ -134,7 +132,7 @@ module DBI
           file_was_encrypted = true
           File.decrypt(@dbrc_file)
         end
-         
+
         parse_dbrc_config_file()
         validate_data()
         convert_numeric_strings()
@@ -149,14 +147,14 @@ module DBI
     # Inspection of the DBI::DBRC object. This is identical to the standard
     # Ruby Object#inspect, except that the password field is filtered.
     #
-    def inspect 
-      str = instance_variables.map{ |iv| 
+    def inspect
+      str = instance_variables.map{ |iv|
         if iv == '@password'
           "#{iv}=[FILTERED]"
         else
-          "#{iv}=#{instance_variable_get(iv).inspect}" 
+          "#{iv}=#{instance_variable_get(iv).inspect}"
         end
-      }.join(', ') 
+      }.join(', ')
 
       "#<#{self.class}:0x#{(self.object_id*2).to_s(16)} " << str << ">"
     end
@@ -173,7 +171,7 @@ module DBI
         raise Error, "password not defined for #{@user}@#{@database}"
       end
     end
-   
+
     # Converts strings that should be numbers into actual numbers
     def convert_numeric_strings
       @interval   = @interval.to_i if @interval
@@ -293,7 +291,7 @@ module DBI
         hash.each{ |db,info|
           next unless db == @database
           next unless @user == info["user"] if @user
-          @user       = info["user"]            
+          @user       = info["user"]
           @password   = info["password"]
           @driver     = info["driver"]
           @interval   = info["interval"]
