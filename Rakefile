@@ -23,21 +23,23 @@ namespace :gem do
   end
 end
 
-Rake::TestTask.new do |t|
-  t.warning = true
-  t.verbose = true
+namespace :test do
+  Rake::TestTask.new(:all) do |t|
+    t.warning = true
+    t.verbose = true
+  end
+
+  Rake::TestTask.new(:xml) do |t|
+    t.warning = true
+    t.verbose = true
+    t.test_files = FileList['test/test_dbi_dbrc_xml.rb']
+  end
+
+  Rake::TestTask.new(:yml) do |t|
+    t.warning = true
+    t.verbose = true
+    t.test_files = FileList['test/test_dbi_dbrc_yml.rb']
+  end
 end
 
-Rake::TestTask.new(:test_xml) do |t|
-  t.warning = true
-  t.verbose = true
-  t.test_files = FileList['test/test_dbi_dbrc_xml.rb']
-end
-
-Rake::TestTask.new(:test_yml) do |t|
-  t.warning = true
-  t.verbose = true
-  t.test_files = FileList['test/test_dbi_dbrc_yml.rb']
-end
-
-task :default => :test
+task :default => 'test:all'
