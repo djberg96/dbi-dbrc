@@ -5,7 +5,7 @@
 # run via the 'rake test' task.
 #########################################################################
 require 'dbi/dbrc'
-require 'test/unit'
+require 'test-unit'
 include DBI
 
 class TC_DBI_DBRC < Test::Unit::TestCase
@@ -22,13 +22,13 @@ class TC_DBI_DBRC < Test::Unit::TestCase
     @user2    = 'user2'
     @db_bad   = 'blah'  # Doesn't exist
     @user_bad = 'user8' # Doesn't exist
-     
+
     if @@windows && File.respond_to?(:set_attr)
       File.set_attr(@file, File::HIDDEN)
     else
       File.chmod(0600, @file)
     end
-      
+
     @dbrc = DBRC.new(@db1, nil, @dir)
   end
 
@@ -147,7 +147,7 @@ class TC_DBI_DBRC < Test::Unit::TestCase
 
   # Same database, different user
   def test_duplicate_database
-    db = DBRC.new("foo", "user2", @dir) 
+    db = DBRC.new("foo", "user2", @dir)
     assert_equal("user2", db.user)
     assert_equal("pwd2", db.passwd)
     assert_equal("OCI8", db.driver)
@@ -171,7 +171,7 @@ class TC_DBI_DBRC < Test::Unit::TestCase
 
   # A database with only a couple fields defined
   def test_nil_values
-    db = DBRC.new("baz", "user3", @dir) 
+    db = DBRC.new("baz", "user3", @dir)
     assert_equal("user3", db.user)
     assert_equal("pwd4", db.passwd)
     assert_nil(db.driver)
