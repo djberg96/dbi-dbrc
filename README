@@ -5,10 +5,10 @@
    connections, e.g. ssh, ftp, etc.
 
 == Requirements
-   * Ruby 1.8.2 or later
    * sys-admin
    * win32-file (MS Windows only)
    * win32-dir (MS Windows only)
+   * win32-process (MS Windows only)
 
 == Installation
    gem install dbi-dbrc
@@ -206,7 +206,7 @@ DBRC#dsn=(dsn)
 == Notes for MS Windows Users
    The 'home' directory for Win32 users is determined by ENV['USERPROFILE'].
    If that is not set, ENV['HOME'] is used. If that is not set, then
-   'C:\Documents and Settings\user_name' is used.
+   the directory found by the sys-admin library is used.
 
    To make your file hidden, right click on the .dbrc file in your Explorer
    window, select "Properties" and check the "Hidden" checkbox.
@@ -249,7 +249,7 @@ DBRC#dsn=(dsn)
    If it's not correct, please let me know.
    
 == Copyright
-   (C) Copyright 2002-2009, Daniel J. Berger, all rights reserved.
+   (C) Copyright 2002-2013, Daniel J. Berger, all rights reserved.
    
 = Warranty
    This package is provided "as is" and without any express or
