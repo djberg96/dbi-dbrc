@@ -1,6 +1,6 @@
 if File::ALT_SEPARATOR
   require 'win32/dir'
-  require 'win32/file'
+  require 'win32/file/attributes'
   require 'win32/process'
 end
 
@@ -16,7 +16,7 @@ module DBI
     class Error < StandardError; end
 
     # The version of the dbi-dbrc library
-    VERSION = '1.1.9'
+    VERSION = '1.2.0'
 
     @@windows = File::ALT_SEPARATOR
 
