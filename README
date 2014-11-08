@@ -6,7 +6,7 @@
 
 == Requirements
    * sys-admin
-   * win32-file (MS Windows only)
+   * win32-file-attributes (MS Windows only)
    * win32-dir (MS Windows only)
    * win32-process (MS Windows only)
 
@@ -58,14 +58,14 @@
    The format for XML (using the example above) is as follows:
 
    <dbrc>
-      <database name="mydb">
-         <user>dan</user>
-         <password>mypass</password>
-         <driver>oracle</driver>
-         <interval>30</interval>
-         <timeout>10</timeout>
-         <maximum_reconnects>2</maximum_reconnects>
-      </database>
+     <database name="mydb">
+       <user>dan</user>
+       <password>mypass</password>
+       <driver>oracle</driver>
+       <interval>30</interval>
+       <timeout>10</timeout>
+       <maximum_reconnects>2</maximum_reconnects>
+     </database>
    </dbrc>
 
    The format for YAML is as follows:
@@ -189,18 +189,18 @@ DBRC#dsn=(dsn)
    n = db.max_reconn
 
    begin
-      Timeout.timeout(db.timeout){
-         DBI.connect(db.dsn, db.user, db.passwd)
-      }
+     Timeout.timeout(db.timeout){
+       DBI.connect(db.dsn, db.user, db.passwd)
+     }
    rescue DBI::Error
-      n -= 1
-      if n > 0
-         sleep db.interval
-         retry
-      end
-      raise
+     n -= 1
+     if n > 0
+       sleep db.interval
+       retry
+     end
+     raise
    rescue TimeoutError
-      # handle timeout error
+     # handle timeout error
    end
 
 == Notes for MS Windows Users
@@ -249,7 +249,7 @@ DBRC#dsn=(dsn)
    If it's not correct, please let me know.
    
 == Copyright
-   (C) Copyright 2002-2013, Daniel J. Berger, all rights reserved.
+   (C) Copyright 2002-2014, Daniel J. Berger, all rights reserved.
    
 = Warranty
    This package is provided "as is" and without any express or
