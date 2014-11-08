@@ -1,3 +1,8 @@
+== 1.2.0 - 8-Nov-2014
+* Updated dependency for MS Windows. Now uses win32-file-attributes instead
+  of win32-file.
+* Minor updates to the Rakefile and gemspec.
+
 == 1.1.9 - 10-Jan-2013
 * Fixed an unused variable warning.
 * Changed the way I check for MS Windows.
