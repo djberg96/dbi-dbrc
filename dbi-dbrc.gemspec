@@ -2,7 +2,7 @@ require 'rubygems'
 
 Gem::Specification.new do |spec|
   spec.name       = 'dbi-dbrc'
-  spec.version    = '1.1.9'
+  spec.version    = '1.2.0'
   spec.author     = 'Daniel Berger'
   spec.email      = 'djberg96@gmail.com'
   spec.license    = 'Artistic 2.0'
@@ -12,15 +12,14 @@ Gem::Specification.new do |spec|
   spec.test_files = Dir['test/test*.rb']
 
   spec.extra_rdoc_files  = ['README', 'CHANGES', 'MANIFEST']
-  spec.rubyforge_project = 'shards'
 
-  spec.add_dependency('sys-admin', '>= 1.5.2')
+  spec.add_dependency('sys-admin')
   spec.add_development_dependency('test-unit')
 
   if File::ALT_SEPARATOR
-    spec.add_dependency('win32-file', '>= 0.6.6')
-    spec.add_dependency('win32-dir', '>= 0.3.7')
-    spec.add_dependency('win32-process', '>= 0.6.2')
+    spec.add_dependency('win32-file-attributes')
+    spec.add_dependency('win32-dir')
+    spec.add_dependency('win32-process')
     spec.platform = Gem::Platform::CURRENT
     spec.platform.cpu = 'universal'
   end
