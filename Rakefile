@@ -5,20 +5,12 @@ require 'rake/testtask'
 CLEAN.include("**/*.gem", "**/*.rbc")
 
 namespace :gem do
-  desc "Remove any gem files."
-  task :clean do
-    Dir['*.gem'].each{ |f| File.delete(f) }
-  end
-
   desc "Create the dbi-dbrc gem"
   task :create => [:clean] do
+    require 'rubygems/package'
     spec = eval(IO.read('dbi-dbrc.gemspec'))
-    if Gem::VERSION < "2.0"
-      Gem::Builder.new(spec).build
-    else
-      require 'rubygems/package'
-      Gem::Package.build(spec)
-    end
+    spec.signing_key = File.join(Dir.home, '.ssh', 'gem-private_key.pem')
+    Gem::Package.build(spec)
   end
 
   desc "Install the dbi-dbrc gem"
