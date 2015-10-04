@@ -2,16 +2,17 @@ require 'rubygems'
 
 Gem::Specification.new do |spec|
   spec.name       = 'dbi-dbrc'
-  spec.version    = '1.2.0'
+  spec.version    = '1.3.0'
   spec.author     = 'Daniel Berger'
   spec.email      = 'djberg96@gmail.com'
-  spec.license    = 'Artistic 2.0'
+  spec.license    = 'Apache 2.0'
   spec.summary    = 'A simple way to avoid hard-coding passwords with DBI'
   spec.homepage   = 'https://github.com/djberg96/dbi-dbrc'
   spec.files      = Dir['**/*'].reject{ |f| f.include?('git') }
   spec.test_files = Dir['test/test*.rb']
+  spec.cert_chain = ['certs/djberg96_pub.pem']
 
-  spec.extra_rdoc_files  = ['README', 'CHANGES', 'MANIFEST']
+  spec.extra_rdoc_files = ['README', 'CHANGES', 'MANIFEST']
 
   spec.add_dependency('sys-admin')
   spec.add_development_dependency('test-unit')
