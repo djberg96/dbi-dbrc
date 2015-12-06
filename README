@@ -5,10 +5,12 @@
    connections, e.g. ssh, ftp, etc.
 
 == Requirements
+   MS Windows users have these additional requirements:
+
    * sys-admin
-   * win32-file-attributes (MS Windows only)
-   * win32-dir (MS Windows only)
-   * win32-process (MS Windows only)
+   * win32-file-attributes
+   * win32-dir
+   * win32-process
 
 == Installation
    gem install dbi-dbrc
@@ -249,7 +251,7 @@ DBRC#dsn=(dsn)
    If it's not correct, please let me know.
    
 == Copyright
-   (C) Copyright 2002-2014, Daniel J. Berger, all rights reserved.
+   (C) Copyright 2002-2015, Daniel J. Berger, all rights reserved.
    
 = Warranty
    This package is provided "as is" and without any express or
