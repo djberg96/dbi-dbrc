@@ -2,9 +2,11 @@ if File::ALT_SEPARATOR
   require 'win32/dir'
   require 'win32/file/attributes'
   require 'win32/process'
+  require 'sys/admin'
+else
+  require 'etc'
 end
 
-require 'sys/admin'
 
 # The DBI module serves as a namespace only.
 module DBI
@@ -16,18 +18,26 @@ module DBI
     class Error < StandardError; end
 
     # The version of the dbi-dbrc library
-    VERSION = '1.3.0'
+    VERSION = '1.4.0'
 
-    @@windows = File::ALT_SEPARATOR
+    WINDOWS = File::ALT_SEPARATOR # :no-doc:
 
     # The database or host to be connected to.
     attr_accessor :database
+
+    alias :db :database
+    alias :db= :database=
+    alias :host :database
+    alias :host= :database=
 
     # The user name used for the database or host connection.
     attr_accessor :user
 
     # The password associated with the database or host.
     attr_accessor :password
+
+    alias :passwd :password
+    alias :passwd= :password=
 
     # The driver associated with the database. This is used to internally to
     # construct the DSN.
@@ -39,8 +49,14 @@ module DBI
     # The maximum number of reconnects a program should make before giving up.
     attr_accessor :maximum_reconnects
 
+    alias :max_reconn :maximum_reconnects
+    alias :max_reconn= :maximum_reconnects=
+
     # The timeout, in seconds, for each connection attempt.
     attr_accessor :timeout
+
+    alias :time_out :timeout
+    alias :time_out= :timeout=
 
     # The interval, in seconds, between each connection attempt.
     attr_accessor :interval
@@ -86,20 +102,17 @@ module DBI
     def initialize(database, user=nil, dbrc_dir=nil)
       if dbrc_dir.nil?
         uid  = Process.uid
-        home = ENV['HOME'] || ENV['USERPROFILE']
 
-        if home.nil?
-          if @@windows
-            home ||= Sys::Admin.get_user(uid, :localaccount => true).dir
-          else
-            home ||= Sys::Admin.get_user(uid).dir
-          end
+        if WINDOWS
+          home = Sys::Admin.get_user(uid, :localaccount => true).name
+        else
+          home = Dir.home(Etc.getpwuid.name)
         end
 
         # Default to the app data directory on Windows, or root on Unix, if
         # no home dir can be found.
         if home.nil?
-          if @@windows
+          if WINDOWS
             home = Dir::APPDATA
           else
             home = '/'
@@ -128,7 +141,7 @@ module DBI
       # Decrypt and re-encrypt the file if we're on MS Windows and the
       # file is encrypted.
       begin
-        if @@windows && File.encrypted?(@dbrc_file)
+        if WINDOWS && File.encrypted?(@dbrc_file)
           file_was_encrypted = true
           File.decrypt(@dbrc_file)
         end
@@ -138,7 +151,7 @@ module DBI
         convert_numeric_strings()
         create_dsn_string()
       ensure
-        if @@windows && file_was_encrypted
+        if WINDOWS && file_was_encrypted
           File.encrypt(@dbrc_file)
         end
       end
@@ -189,7 +202,7 @@ module DBI
       File.open(file){ |f|
         # Permissions must be set to 600 or better on Unix systems.
         # Must be hidden on Win32 systems.
-        if @@windows
+        if WINDOWS
           unless File.hidden?(file)
             raise Error, "The .dbrc file must be hidden"
           end
@@ -209,50 +222,41 @@ module DBI
     # Parse the text out of the .dbrc file.  This is the only method you
     # need to redefine if writing your own config handler.
     def parse_dbrc_config_file(file=@dbrc_file)
-       IO.foreach(file){ |line|
-          next if line =~ /^#/    # Ignore comments
-          db, user, pwd, driver, timeout, max, interval = line.split
+      IO.foreach(file){ |line|
+        next if line =~ /^#/    # Ignore comments
+        db, user, pwd, driver, timeout, max, interval = line.split
 
-          next unless @database == db
+        next unless @database == db
 
-          if @user
-             next unless @user == user
-          end
+        if @user
+          next unless @user == user
+        end
 
-          @user               = user
-          @password           = pwd
-          @driver             = driver
-          @timeout            = timeout
-          @maximum_reconnects = max
-          @interval           = interval
-          return
-       }
+        @user               = user
+        @password           = pwd
+        @driver             = driver
+        @timeout            = timeout
+        @maximum_reconnects = max
+        @interval           = interval
+        return
+      }
 
-       # If we reach here it means the database and/or user wasn't found
-       if @user
-          err = "no record found for #{@user}@#{@database}"
-       else
-          err = "no record found for #{@database}"
-       end
+      # If we reach here it means the database and/or user wasn't found
+      if @user
+        err = "no record found for #{@user}@#{@database}"
+      else
+        err = "no record found for #{@database}"
+      end
 
-       raise Error, err
+      raise Error, err
     end
 
-    alias_method(:db, :database)
-    alias_method(:db=, :database=)
-    alias_method(:passwd, :password)
-    alias_method(:passwd=, :password=)
-    alias_method(:max_reconn, :maximum_reconnects)
-    alias_method(:max_reconn=, :maximum_reconnects=)
-    alias_method(:time_out, :timeout)
-    alias_method(:time_out=, :timeout=)
-    alias_method(:host, :database)
   end
 
   # A subclass of DBRC designed to handle .dbrc files in XML format.  The
   # public methods of this class are identical to DBRC.
   class XML < DBRC
-    require "rexml/document"
+    require 'rexml/document' # Good enough for small files
     include REXML
 
     private
@@ -281,7 +285,7 @@ module DBI
   # A subclass of DBRC designed to handle .dbrc files in YAML format. The
   # public methods of this class are identical to DBRC.
   class YML < DBRC
-    require "yaml"
+    require 'yaml'
 
     private
 
@@ -296,7 +300,7 @@ module DBI
           @driver     = info["driver"]
           @interval   = info["interval"]
           @timeout    = info["timeout"]
-          @maximum_reconnects = info["max_reconn"]
+          @maximum_reconnects = info["maximum_reconnects"]
           return
         }
       }
