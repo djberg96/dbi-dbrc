@@ -4,21 +4,21 @@
    driver: Oracle
    interval: 60
    timeout: 40
-   max_reconn: 3
+   maximum_reconnects: 3
 - foo:
    user: user2
    password: pwd2
    driver: OCI8
    interval: 60
    timeout: 60
-   max_reconn: 4
+   maximum_reconnects: 4
 - bar:
    user: user1
    password: pwd3
    driver: Oracle
    interval: 30
    timeout: 30
-   max_reconn: 2
+   maximum_reconnects: 2
 - baz:
    user: user3
    password: pwd4
