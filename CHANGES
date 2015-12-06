@@ -5,6 +5,7 @@
   "max_reconn" to be consistent with the other classes.
 * Aliases are now universal for all classes.
 * Some gemspec and Rakefile updates.
+* Added a dbi-dbrc.rb file for convenience.
 
 == 1.3.0 - 3-Oct-2015
 * License changed to Apache 2.0.
