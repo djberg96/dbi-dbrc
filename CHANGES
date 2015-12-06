@@ -1,8 +1,8 @@
-== 1.4.0 - ???
-* Use Dir.home to calculate the home directory now. Therefore Ruby 1.9.3 or
-  later is now required.
+== 1.4.0 - 6-Dec-2015
+* Use Dir.home to calculate the home directory on Unixy platforms. Therefore
+  Ruby 1.9.3 or later is now required.
 * The DBI::DBRC::YML class looks for "maximum_reconnects" instead of
-  "max_reconn" to be consisten with the other classes.
+  "max_reconn" to be consistent with the other classes.
 * Aliases are now universal for all classes.
 * Some gemspec and Rakefile updates.
 
