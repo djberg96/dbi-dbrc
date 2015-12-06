@@ -2,7 +2,7 @@ require 'rubygems'
 
 Gem::Specification.new do |spec|
   spec.name       = 'dbi-dbrc'
-  spec.version    = '1.3.0'
+  spec.version    = '1.4.0'
   spec.author     = 'Daniel Berger'
   spec.email      = 'djberg96@gmail.com'
   spec.license    = 'Apache 2.0'
@@ -10,14 +10,15 @@ Gem::Specification.new do |spec|
   spec.homepage   = 'https://github.com/djberg96/dbi-dbrc'
   spec.files      = Dir['**/*'].reject{ |f| f.include?('git') }
   spec.test_files = Dir['test/test*.rb']
-  spec.cert_chain = ['certs/djberg96_pub.pem']
+  spec.cert_chain = Dir['certs/*']
 
   spec.extra_rdoc_files = ['README', 'CHANGES', 'MANIFEST']
 
-  spec.add_dependency('sys-admin')
+  spec.required_ruby_version = ">= 1.9.3"
   spec.add_development_dependency('test-unit')
 
   if File::ALT_SEPARATOR
+    spec.add_dependency('sys-admin')
     spec.add_dependency('win32-file-attributes')
     spec.add_dependency('win32-dir')
     spec.add_dependency('win32-process')
