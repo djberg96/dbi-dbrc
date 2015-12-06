@@ -101,10 +101,8 @@ module DBI
     #
     def initialize(database, user=nil, dbrc_dir=nil)
       if dbrc_dir.nil?
-        uid  = Process.uid
-
         if WINDOWS
-          home = Sys::Admin.get_user(uid, :localaccount => true).name
+          home = Sys::Admin.get_user(Process.uid, :localaccount => true).dir
         else
           home = Dir.home(Etc.getpwuid.name)
         end
