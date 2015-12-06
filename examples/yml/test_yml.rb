@@ -1,12 +1,12 @@
 #######################################################################
-# test_xml.rb
+# test_yml.rb
 #
-# Simple test script that uses the DBRC::XML subclass.
+# Simple test script that uses the DBRC::YML subclass.
 #######################################################################
 if File.basename(Dir.pwd) == "yml"
-   Dir.chdir "../.."
-   $LOAD_PATH.unshift Dir.pwd + "/lib"
-   Dir.chdir "examples/yml"
+  Dir.chdir "../.."
+  $LOAD_PATH.unshift Dir.pwd + "/lib"
+  Dir.chdir "examples/yml"
 end
 
 require "dbi/dbrc"
