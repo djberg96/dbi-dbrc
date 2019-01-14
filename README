@@ -251,7 +251,10 @@ DBRC#dsn=(dsn)
    If it's not correct, please let me know.
    
 == Copyright
-   (C) Copyright 2002-2015, Daniel J. Berger, all rights reserved.
+   (C) Copyright 2002-2019, Daniel J. Berger, all rights reserved.
+
+== License
+   Apache-2.0
    
 = Warranty
    This package is provided "as is" and without any express or
