@@ -18,7 +18,7 @@ module DBI
     class Error < StandardError; end
 
     # The version of the dbi-dbrc library
-    VERSION = '1.4.0'
+    VERSION = '1.4.1'.freeze
 
     WINDOWS = File::ALT_SEPARATOR # :no-doc:
 
