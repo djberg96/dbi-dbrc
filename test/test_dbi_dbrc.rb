@@ -33,7 +33,8 @@ class TC_DBI_DBRC < Test::Unit::TestCase
   end
 
   def test_version
-    assert_equal('1.4.0', DBRC::VERSION)
+    assert_equal('1.4.1', DBRC::VERSION)
+    assert_true(DBRC::VERSION.frozen?)
   end
 
   def test_bad_dbrc_properties
