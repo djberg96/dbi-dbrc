@@ -1,3 +1,9 @@
+== 1.4.1 - 14-Jan-2018
+* Fixed some test warnings.
+* Added metadata to gemspec.
+* The VERSION constant is now frozen.
+* Updated the cert, should be good for about 10 years.
+
 == 1.4.0 - 6-Dec-2015
 * Use Dir.home to calculate the home directory on Unixy platforms. Therefore
   Ruby 1.9.3 or later is now required.

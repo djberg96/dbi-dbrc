@@ -33,7 +33,8 @@ class TC_DBI_DBRC < Test::Unit::TestCase
   end
 
   def test_version
-    assert_equal('1.4.0', DBRC::VERSION)
+    assert_equal('1.4.1', DBRC::VERSION)
+    assert_true(DBRC::VERSION.frozen?)
   end
 
   def test_bad_dbrc_properties
@@ -115,7 +116,7 @@ class TC_DBI_DBRC < Test::Unit::TestCase
   def test_interval
     assert_respond_to(@dbrc, :interval)
     assert_respond_to(@dbrc, :interval=)
-    assert_kind_of(Fixnum, @dbrc.interval)
+    assert_kind_of(Numeric, @dbrc.interval)
   end
 
   def test_timeout
@@ -123,7 +124,7 @@ class TC_DBI_DBRC < Test::Unit::TestCase
     assert_respond_to(@dbrc, :timeout=)
     assert_respond_to(@dbrc, :time_out)
     assert_respond_to(@dbrc, :time_out=)
-    assert_kind_of(Fixnum, @dbrc.timeout)
+    assert_kind_of(Numeric, @dbrc.timeout)
   end
 
   def test_max_reconn
@@ -131,7 +132,7 @@ class TC_DBI_DBRC < Test::Unit::TestCase
     assert_respond_to(@dbrc, :max_reconn=)
     assert_respond_to(@dbrc, :maximum_reconnects)
     assert_respond_to(@dbrc, :maximum_reconnects=)
-    assert_kind_of(Fixnum, @dbrc.maximum_reconnects)
+    assert_kind_of(Numeric, @dbrc.maximum_reconnects)
   end
 
   def test_sample_values

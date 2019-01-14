@@ -78,7 +78,7 @@ class TC_DBI_DBRC_YML < Test::Unit::TestCase
   def test_interval
     assert_respond_to(@dbrc, :interval)
     assert_respond_to(@dbrc, :interval=)
-    assert_kind_of(Fixnum, @dbrc.interval)
+    assert_kind_of(Numeric, @dbrc.interval)
   end
 
   def test_timeout
@@ -86,7 +86,7 @@ class TC_DBI_DBRC_YML < Test::Unit::TestCase
     assert_respond_to(@dbrc, :timeout=)
     assert_respond_to(@dbrc, :time_out)
     assert_respond_to(@dbrc, :time_out=)
-    assert_kind_of(Fixnum, @dbrc.timeout)
+    assert_kind_of(Numeric, @dbrc.timeout)
   end
 
   def test_max_reconn
@@ -94,7 +94,7 @@ class TC_DBI_DBRC_YML < Test::Unit::TestCase
     assert_respond_to(@dbrc, :max_reconn=)
     assert_respond_to(@dbrc, :maximum_reconnects)
     assert_respond_to(@dbrc, :maximum_reconnects=)
-    assert_kind_of(Fixnum, @dbrc.maximum_reconnects)
+    assert_kind_of(Numeric, @dbrc.maximum_reconnects)
   end
 
   def test_sample_values
@@ -110,7 +110,7 @@ class TC_DBI_DBRC_YML < Test::Unit::TestCase
 
   # Same database, different user
   def test_duplicate_database
-    db = DBRC::YML.new("foo", "user2", @dir) 
+    db = DBRC::YML.new("foo", "user2", @dir)
     assert_equal("user2", db.user)
     assert_equal("pwd2", db.passwd)
     assert_equal("OCI8", db.driver)
@@ -134,7 +134,7 @@ class TC_DBI_DBRC_YML < Test::Unit::TestCase
 
   # A database with only a couple fields defined
   def test_nil_values
-    db = DBRC::YML.new("baz", "user3", @dir) 
+    db = DBRC::YML.new("baz", "user3", @dir)
     assert_equal("user3", db.user)
     assert_equal("pwd4", db.passwd)
     assert_nil(db.driver)
