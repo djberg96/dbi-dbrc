@@ -1,5 +1,5 @@
 ## Description
-This is a supplement to the dbi module, allowing you to avoid hard-coding
+This is a supplement to the dbi library, allowing you to avoid hard-coding
 passwords in your programs that make database connections. It can also
 be used as a general password storage mechanism for other types of
 connections, e.g. ssh, ftp, etc.
@@ -53,7 +53,7 @@ module or it will fail:
 You may include comments in the .dbrc file by starting the line with a
 "#" symbol.
 
-A failure in any of the rules mentioned above will result in a DBRC::Error
+A failure in any of the rules mentioned above will result in a `DBRC::Error`
 being raised. In addition, the file may also be encrypted on MS Windows
 systems, in which case the file will automatically be (temporarily)
 decrypted.
@@ -234,8 +234,8 @@ end
 ```
 
 ## Notes for MS Windows Users
-The 'home' directory for Win32 users is determined by ENV['USERPROFILE'].
-If that is not set, ENV['HOME'] is used. If that is not set, then
+The `home` directory for Win32 users is determined by `ENV['USERPROFILE']`.
+If that is not set then `ENV['HOME']` is used. If that is not set, then
 the directory found by the sys-admin library is used.
 
 To make your file hidden, right click on the .dbrc file in your Explorer
@@ -248,11 +248,11 @@ DBRC will attempt to decrypt it, parse it, and encrypt it again when done
 parsing.
 
 ## Notes on running the test suite
-I cannot guarantee that the .dbrc files under the +examples+
+I cannot guarantee that the .dbrc files under the `examples`
 subdirectories maintain the appropriate properties. This can cause
 failures for the test suite (which uses these files).
 
-The only solution is to perform a 'chmod 600 .dbrc' (on Unix) or set
+The only solution is to perform a `chmod 600 .dbrc` (on Unix) or set
 the properties to 'hidden' (on MS Windows) manually, for the file in
 question.
    
@@ -266,7 +266,7 @@ If you want to add your own type of configuration file, you can still use
 the dbi-dbrc library. All you need to do is:
 
 * subclass DBRC
-* redefine the +parse_dbrc_config_file+ method (a private method).
+* redefine the `parse_dbrc_config_file` method (a private method).
 
 Take a look at the XML and YML subclasses in dbrc.rb for two examples that
 you can work from.
