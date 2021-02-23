@@ -19,10 +19,9 @@ Windows there are these additional requirements:
 ## Synopsis
 ```ruby
 require 'dbi/dbrc'
-include DBI
 
-dbrc = DBRC.new('mydb') # or...
-dbrc = DBRC.new('mydb', 'someUser')
+dbrc = DBI::DBRC.new('mydb') # or...
+dbrc = DBI::DBRC.new('mydb', 'someUser')
 
 puts dbrc.db
 puts dbrc.user
@@ -218,16 +217,16 @@ db = DBI::DBRC.new("somedb")
 n = db.max_reconn
 
 begin
- Timeout.timeout(db.timeout){
-   DBI.connect(db.dsn, db.user, db.passwd)
- }
+  Timeout.timeout(db.timeout){
+    DBI.connect(db.dsn, db.user, db.passwd)
+  }
 rescue DBI::Error
- n -= 1
- if n > 0
-   sleep db.interval
-   retry
- end
- raise
+  n -= 1
+  if n > 0
+    sleep db.interval
+    retry
+  end
+  raise
 rescue TimeoutError
  # handle timeout error
 end
