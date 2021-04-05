@@ -1,6 +1,6 @@
 require 'rake'
 require 'rake/clean'
-require 'rake/testtask'
+require 'rspec/core/rake_task'
 
 CLEAN.include("**/*.gem", "**/*.rbc")
 
@@ -20,23 +20,7 @@ namespace :gem do
   end
 end
 
-namespace :test do
-  Rake::TestTask.new(:all) do |t|
-    t.warning = true
-    t.verbose = true
-  end
+desc "Run the test suite"
+RSpec::Core::RakeTask.new(:spec)
 
-  Rake::TestTask.new(:xml) do |t|
-    t.warning = true
-    t.verbose = true
-    t.test_files = FileList['test/test_dbi_dbrc_xml.rb']
-  end
-
-  Rake::TestTask.new(:yml) do |t|
-    t.warning = true
-    t.verbose = true
-    t.test_files = FileList['test/test_dbi_dbrc_yml.rb']
-  end
-end
-
-task :default => 'test:all'
+task :default => :spec
