@@ -2,7 +2,7 @@ require 'rubygems'
 
 Gem::Specification.new do |spec|
   spec.name       = 'dbi-dbrc'
-  spec.version    = '1.4.1'
+  spec.version    = '1.5.0'
   spec.author     = 'Daniel Berger'
   spec.email      = 'djberg96@gmail.com'
   spec.license    = 'Apache-2.0'
@@ -14,10 +14,9 @@ Gem::Specification.new do |spec|
 
   spec.extra_rdoc_files = ['README', 'CHANGES', 'MANIFEST']
 
-  spec.required_ruby_version = ">= 1.9.3"
-
-  spec.add_development_dependency('test-unit')
   spec.add_development_dependency('rake')
+  spec.add_development_dependency('rspec', '~> 3.9')
+  spec.add_development_dependency('fakefs', '~> 1.3')
 
   spec.metadata = {
     'homepage_uri'      => 'https://github.com/djberg96/dbi-dbrc',
