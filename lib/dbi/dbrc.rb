@@ -18,7 +18,7 @@ module DBI
     class Error < StandardError; end
 
     # The version of the dbi-dbrc library
-    VERSION = '1.4.1'.freeze
+    VERSION = '1.5.0'.freeze
 
     WINDOWS = File::ALT_SEPARATOR # :no-doc:
 
@@ -220,7 +220,7 @@ module DBI
     # Parse the text out of the .dbrc file.  This is the only method you
     # need to redefine if writing your own config handler.
     def parse_dbrc_config_file(file=@dbrc_file)
-      IO.foreach(file){ |line|
+      File.foreach(file){ |line|
         next if line =~ /^#/    # Ignore comments
         db, user, pwd, driver, timeout, max, interval = line.split
 
