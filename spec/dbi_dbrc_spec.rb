@@ -89,24 +89,21 @@ RSpec.describe DBI::DBRC do
       expect{ described_class.new(db_foo, user1) }.not_to raise_error
       expect{ described_class.new(db_foo, nil) }.not_to raise_error
     end
-  end
 
-  #example "constructor" do
-  #end
+    example "constructor fails if the database entry doesn't exist" do
+      expect{ described_class.new('bogus', user1) }.to raise_error(DBI::DBRC::Error)
+    end
+
+    example "constructor fails if the user entry doesn't exist" do
+      expect{ described_class.new(db_foo, 'nobody') }.to raise_error(DBI::DBRC::Error)
+    end
+
+    example "constructor fails if the .dbrc file isn't found in the specified directory" do
+      expect{ described_class.new(db_foo, user1, '/bogusXX') }.to raise_error(DBI::DBRC::Error)
+    end
+  end
 
 =begin
-  example "bad_database" do
-    expect{ DBRC.new(@db_bad, nil, @dir) }.to raise_error(DBRC::Error)
-  end
-
-  example "bad_user" do
-    expect{ DBRC.new(@db1, @user_bad, @dir) }.to raise_error(DBRC::Error)
-  end
-
-  example "bad_dir" do
-    expect{ described_class.new(@db1, @user1, '/bogusXX') }.to raise_error(described_class::Error)
-  end
-
   example "database" do
     expect(@dbrc).to respond_to(:database)
     expect(@dbrc).to respond_to(:database=)
