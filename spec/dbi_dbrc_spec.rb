@@ -148,30 +148,47 @@ RSpec.describe DBI::DBRC do
     example "basic dsn setter check" do
       expect(@dbrc).to respond_to(:dsn=)
     end
+
+    example "user getter basic check" do
+      expect(@dbrc).to respond_to(:user)
+    end
+
+    example "user method returns expected value" do
+      expect(@dbrc.user).to eq('user1')
+    end
+
+    example "user setter basic check" do
+      expect(@dbrc).to respond_to(:user=)
+    end
+
+    example "password getter basic check and alias" do
+      expect(@dbrc).to respond_to(:password)
+      expect(@dbrc.method(:password)).to eq(@dbrc.method(:passwd))
+    end
+
+    example "password method returns expected value" do
+      expect(@dbrc.password).to eq("pwd1")
+    end
+
+    example "password setter basic check and alias" do
+      expect(@dbrc).to respond_to(:password=)
+      expect(@dbrc.method(:password=)).to eq(@dbrc.method(:passwd=))
+    end
+
+    example "driver getter basic check" do
+      expect(@dbrc).to respond_to(:driver)
+    end
+
+    example "driver method returns expected value" do
+      expect(@dbrc.driver).to eq("Oracle")
+    end
+
+    example "driver setter basic check" do
+      expect(@dbrc).to respond_to(:driver=)
+    end
   end
 
 =begin
-
-  example "user" do
-    expect(@dbrc).to respond_to(:user)
-    expect(@dbrc).to respond_to(:user=)
-    expect( @dbrc.user).to be_kind_of(String)
-  end
-
-  example "password" do
-    expect(@dbrc).to respond_to(:password)
-    expect(@dbrc).to respond_to(:password=)
-    expect(@dbrc).to respond_to(:passwd)
-    expect(@dbrc).to respond_to(:passwd=)
-    expect( @dbrc.password).to be_kind_of(String)
-  end
-
-  example "driver" do
-    expect(@dbrc).to respond_to(:driver)
-    expect(@dbrc).to respond_to(:driver=)
-    expect( @dbrc.driver).to be_kind_of(String)
-  end
-
   example "interval" do
     expect(@dbrc).to respond_to(:interval)
     expect(@dbrc).to respond_to(:interval=)
