@@ -35,6 +35,9 @@ RSpec.describe DBI::DBRC do
     FileUtils.mkdir_p(home)
     File.open(dbrc, 'w'){ |fh| fh.write(plain) }
     File.chmod(0600, dbrc)
+
+    # FakeFS doesn't implement this yet
+    allow_any_instance_of(FakeFS::File::Stat).to receive(:owned?).and_return(true)
   end
 
 =begin
@@ -71,11 +74,6 @@ RSpec.describe DBI::DBRC do
   end
 
   context "constructor" do
-    before do
-      # FakeFS doesn't implement this yet
-      allow_any_instance_of(FakeFS::File::Stat).to receive(:owned?).and_return(true)
-    end
-
     example "constructor raises an error if the permissions are invalid" do
       File.chmod(0555, dbrc)
       expect{ described_class.new(db_foo, user1) }.to raise_error(described_class::Error)
@@ -103,15 +101,27 @@ RSpec.describe DBI::DBRC do
     end
   end
 
-=begin
-  example "database" do
-    expect(@dbrc).to respond_to(:database)
-    expect(@dbrc).to respond_to(:database=)
-    expect(@dbrc).to respond_to(:db)
-    expect(@dbrc).to respond_to(:db=)
-    expect( @dbrc.db).to be_kind_of(String)
+  context "instance methods" do
+    before do
+      @dbrc = DBI::DBRC.new(db_foo)
+    end
+
+    example "basic database getter method and alias" do
+      expect(@dbrc).to respond_to(:database)
+      expect(@dbrc.method(:database)).to eq(@dbrc.method(:db))
+    end
+
+    example "basic database setter method and alias" do
+      expect(@dbrc).to respond_to(:database=)
+      expect(@dbrc.method(:database=)).to eq(@dbrc.method(:db=))
+    end
+
+    example "database method returns expected value" do
+      expect(@dbrc.database).to eq('foo')
+    end
   end
 
+=begin
   example "host_alias" do
     expect(@dbrc).to respond_to(:host)
     expect( @dbrc.method(:host) == @dbrc.method(:database)).to eq(true)
