@@ -5,13 +5,37 @@
 # run via the 'rake spec' task.
 #########################################################################
 require 'dbi/dbrc'
-require 'pp'
-require 'rspec'
+require 'fileutils'
+require 'spec_helper'
 require 'fakefs/spec_helpers'
 
 RSpec.describe DBI::DBRC do
   include FakeFS::SpecHelpers
+
   let(:windows) { File::ALT_SEPARATOR }
+  let(:home) { File.join(Dir.pwd, 'home', 'someone') }
+  let(:dbrc) { File.join(home, '.dbrc') }
+
+  let(:plain) {
+    %q{
+      foo      user1    pwd1     Oracle   40       3     60
+      foo      user2    pwd2     OCI8     60       4     60
+      bar      user1    pwd3     Oracle   30       2     30
+      baz      user3    pwd4
+    }.lstrip
+  }
+
+  let(:db_foo){ 'foo' }
+  let(:db_bar){ 'bar' }
+  let(:user1) { 'user1' }
+  let(:user2) { 'user2' }
+
+  before do
+    allow(Dir).to receive(:home).and_return(home)
+    FileUtils.mkdir_p(home)
+    File.open(dbrc, 'w'){ |fh| fh.write(plain) }
+    File.chmod(0600, dbrc)
+  end
 
 =begin
   before do
@@ -35,27 +59,42 @@ RSpec.describe DBI::DBRC do
 =end
 
   example "version" do
-    expect(DBI::DBRC::VERSION).to eq('1.5.0')
-    expect(DBI::DBRC::VERSION).to be_frozen
+    expect(described_class::VERSION).to eq('1.5.0')
+    expect(described_class::VERSION).to be_frozen
   end
 
-=begin
-  example "bad_dbrc_properties" do
-    if @@windows
-      File.unset_attr(@file, File::HIDDEN)
-      expect{ DBRC.new(@db1, @user1, @dir) }.to raise_error(DBRC::Error)
-    else
-      File.chmod(0555,@file)
-      expect{ DBRC.new(@db1, @user1, @dir) }.to raise_error(DBRC::Error)
+  context "windows", :windows => true do
+    example "constructor raises an error unless the .dbrc file is hidden" do
+      File.unset_attr(plain, File::HIDDEN)
+      expect{ described_class.new(db_foo, user1) }.to raise_error(described_class::Error)
     end
   end
 
-  example "constructor" do
-    expect{ DBRC.new }.to raise_error(ArgumentError)
-    expect{ DBRC.new(@db1, @user1, @dir) }.not_to raise_error
-    expect{ DBRC.new(@db1, nil, @dir) }.not_to raise_error
+  context "constructor" do
+    before do
+      # FakeFS doesn't implement this yet
+      allow_any_instance_of(FakeFS::File::Stat).to receive(:owned?).and_return(true)
+    end
+
+    example "constructor raises an error if the permissions are invalid" do
+      File.chmod(0555, dbrc)
+      expect{ described_class.new(db_foo, user1) }.to raise_error(described_class::Error)
+    end
+
+    example "constructor raises an error if no database is provided" do
+      expect{ described_class.new }.to raise_error(ArgumentError)
+    end
+
+    example "constructor works as expected with or without user" do
+      expect{ described_class.new(db_foo, user1) }.not_to raise_error
+      expect{ described_class.new(db_foo, nil) }.not_to raise_error
+    end
   end
 
+  #example "constructor" do
+  #end
+
+=begin
   example "bad_database" do
     expect{ DBRC.new(@db_bad, nil, @dir) }.to raise_error(DBRC::Error)
   end
@@ -65,7 +104,7 @@ RSpec.describe DBI::DBRC do
   end
 
   example "bad_dir" do
-    expect{ DBI::DBRC.new(@db1, @user1, '/bogusXX') }.to raise_error(DBI::DBRC::Error)
+    expect{ described_class.new(@db1, @user1, '/bogusXX') }.to raise_error(described_class::Error)
   end
 
   example "database" do
