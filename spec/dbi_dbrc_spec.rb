@@ -125,21 +125,32 @@ RSpec.describe DBI::DBRC do
       expect(@dbrc).to respond_to(:dbrc_dir)
     end
 
-    example "dbrc_dir returns expected value" do
+    example "dbrc_dir returns the expected value" do
       expect(@dbrc.dbrc_dir).to eq(home)
+    end
+
+    example "basic dbrc_file check" do
+      expect(@dbrc).to respond_to(:dbrc_file)
+    end
+
+    example "dbrc_file returns the expected value" do
+      expect(File.basename(@dbrc.dbrc_file)).to eq('.dbrc')
+    end
+
+    example "basic dsn getter check" do
+      expect(@dbrc).to respond_to(:dsn)
+    end
+
+    example "dsn method returns the expected value" do
+      expect(@dbrc.dsn).to eq('dbi:Oracle:foo')
+    end
+
+    example "basic dsn setter check" do
+      expect(@dbrc).to respond_to(:dsn=)
     end
   end
 
 =begin
-  example "dbrc_file" do
-    expect(@dbrc).to respond_to(:dbrc_file)
-    expect( File.basename(@dbrc.dbrc_file)).to eq('.dbrc')
-  end
-
-  example "dsn" do
-    expect(@dbrc).to respond_to(:dsn)
-    expect(@dbrc).to respond_to(:dsn=)
-  end
 
   example "user" do
     expect(@dbrc).to respond_to(:user)
