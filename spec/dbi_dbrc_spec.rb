@@ -106,9 +106,10 @@ RSpec.describe DBI::DBRC do
       @dbrc = DBI::DBRC.new(db_foo)
     end
 
-    example "basic database getter method and alias" do
+    example "basic database getter method and aliases" do
       expect(@dbrc).to respond_to(:database)
       expect(@dbrc.method(:database)).to eq(@dbrc.method(:db))
+      expect(@dbrc.method(:database)).to eq(@dbrc.method(:host))
     end
 
     example "basic database setter method and alias" do
@@ -119,19 +120,17 @@ RSpec.describe DBI::DBRC do
     example "database method returns expected value" do
       expect(@dbrc.database).to eq('foo')
     end
+
+    example "basic dbrc_dir check" do
+      expect(@dbrc).to respond_to(:dbrc_dir)
+    end
+
+    example "dbrc_dir returns expected value" do
+      expect(@dbrc.dbrc_dir).to eq(home)
+    end
   end
 
 =begin
-  example "host_alias" do
-    expect(@dbrc).to respond_to(:host)
-    expect( @dbrc.method(:host) == @dbrc.method(:database)).to eq(true)
-  end
-
-  example "dbrc_dir" do
-    expect(@dbrc).to respond_to(:dbrc_dir)
-    expect( @dbrc.dbrc_dir).to eq(@dir)
-  end
-
   example "dbrc_file" do
     expect(@dbrc).to respond_to(:dbrc_file)
     expect( File.basename(@dbrc.dbrc_file)).to eq('.dbrc')

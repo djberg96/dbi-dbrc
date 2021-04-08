@@ -118,6 +118,7 @@ module DBI
         end
 
         @dbrc_file = File.join(home, '.dbrc')
+        dbrc_dir = home
       else
         raise Error, 'bad directory' unless File.directory?(dbrc_dir)
         @dbrc_file = File.join(dbrc_dir, '.dbrc')
