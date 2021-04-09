@@ -28,6 +28,7 @@ RSpec.describe DBI::DBRC do
 
   let(:db_foo){ 'foo' }
   let(:db_bar){ 'bar' }
+  let(:db_baz){ 'baz' }
   let(:user1) { 'user1' }
   let(:user2) { 'user2' }
 
@@ -40,27 +41,6 @@ RSpec.describe DBI::DBRC do
     # FakeFS doesn't implement this yet
     allow_any_instance_of(FakeFS::File::Stat).to receive(:owned?).and_return(true)
   end
-
-=begin
-  before do
-    @dir      = File.join(Dir.pwd, 'examples/plain')
-    @file     = File.join(@dir, '.dbrc')
-    @db1      = 'foo'
-    @db2      = 'bar'
-    @user1    = 'user1'
-    @user2    = 'user2'
-    @db_bad   = 'blah'  # Doesn't exist
-    @user_bad = 'user8' # Doesn't exist
-
-    if @@windows && File.respond_to?(:set_attr)
-      File.set_attr(@file, File::HIDDEN)
-    else
-      File.chmod(0600, @file)
-    end
-
-    @dbrc = DBRC.new(@db1, nil, @dir)
-  end
-=end
 
   example "version" do
     expect(described_class::VERSION).to eq('1.5.0')
@@ -99,6 +79,33 @@ RSpec.describe DBI::DBRC do
 
     example "constructor fails if the .dbrc file isn't found in the specified directory" do
       expect{ described_class.new(db_foo, user1, '/bogusXX') }.to raise_error(DBI::DBRC::Error)
+    end
+
+    example "constructor returns expected values for the same database with different users" do
+      dbrc1 = described_class.new(db_foo, user1)
+      dbrc2 = described_class.new(db_foo, user2)
+      expect(dbrc1.database).to eq(dbrc2.database)
+      expect(dbrc1.user).to eq('user1')
+      expect(dbrc2.user).to eq('user2')
+    end
+
+    example "constructor returns expected values for the same user with different database" do
+      dbrc1 = described_class.new(db_foo, user1)
+      dbrc2 = described_class.new(db_bar, user1)
+      expect(dbrc1.user).to eq(dbrc2.user)
+      expect(dbrc1.database).to eq('foo')
+      expect(dbrc2.database).to eq('bar')
+    end
+
+    example "constructor works as expected if some optional fields are not defined" do
+      dbrc = described_class.new(db_baz)
+      expect(dbrc.user).to eq("user3")
+      expect(dbrc.passwd).to eq("pwd4")
+      expect(dbrc.driver).to be_nil
+      expect(dbrc.interval).to be_nil
+      expect(dbrc.timeout).to be_nil
+      expect(dbrc.max_reconn).to be_nil
+      expect(dbrc.dsn).to be_nil
     end
   end
 
@@ -226,42 +233,4 @@ RSpec.describe DBI::DBRC do
       expect(@dbrc).to respond_to(:max_reconn=)
     end
   end
-
-=begin
-  # Same database, different user
-  example "duplicate_database" do
-    db = DBRC.new("foo", "user2", @dir)
-    expect( db.user).to eq("user2")
-    expect( db.passwd).to eq("pwd2")
-    expect( db.driver).to eq("OCI8")
-    expect( db.interval).to eq(60)
-    expect( db.timeout).to eq(60)
-    expect( db.max_reconn).to eq(4)
-    expect( db.dsn).to eq("dbi:OCI8:foo")
-  end
-
-  # Different database, different user
-  example "different_database" do
-    db = DBRC.new("bar", "user1", @dir)
-    expect( db.user).to eq("user1")
-    expect( db.passwd).to eq("pwd3")
-    expect( db.driver).to eq("Oracle")
-    expect( db.interval).to eq(30)
-    expect( db.timeout).to eq(30)
-    expect( db.max_reconn).to eq(2)
-    expect( db.dsn).to eq("dbi:Oracle:bar")
-  end
-
-  # A database with only a couple fields defined
-  example "nil_values" do
-    db = DBRC.new("baz", "user3", @dir)
-    expect( db.user).to eq("user3")
-    expect( db.passwd).to eq("pwd4")
-    expect(db.driver).to be_nil
-    expect(db.interval).to be_nil
-    expect(db.timeout).to be_nil
-    expect(db.max_reconn).to be_nil
-    expect(db.dsn).to be_nil
-  end
-=end
 end
