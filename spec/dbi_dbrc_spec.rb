@@ -7,6 +7,7 @@
 require 'dbi/dbrc'
 require 'fileutils'
 require 'spec_helper'
+require 'pp' # Requiring this ahead of fakefs to address a superclass issue.
 require 'fakefs/spec_helpers'
 
 RSpec.describe DBI::DBRC do
@@ -186,42 +187,47 @@ RSpec.describe DBI::DBRC do
     example "driver setter basic check" do
       expect(@dbrc).to respond_to(:driver=)
     end
+
+    example "interval getter basic check" do
+      expect(@dbrc).to respond_to(:interval)
+    end
+
+    example "interval method returns expected value" do
+      expect(@dbrc.interval).to eq(60)
+    end
+
+    example "interval setter basic check" do
+      expect(@dbrc).to respond_to(:interval=)
+    end
+
+    example "timeout getter basic check" do
+      expect(@dbrc).to respond_to(:timeout)
+      expect(@dbrc.method(:timeout)).to eq(@dbrc.method(:time_out))
+    end
+
+    example "timeout method returns expected value" do
+      expect(@dbrc.timeout).to eq(40)
+    end
+
+    example "timeout setter basic check" do
+      expect(@dbrc).to respond_to(:timeout=)
+    end
+
+    example "max_reconn getter basic check" do
+      expect(@dbrc).to respond_to(:max_reconn)
+      expect(@dbrc.method(:max_reconn)).to eq(@dbrc.method(:maximum_reconnects))
+    end
+
+    example "max_reconn method returns expected value" do
+      expect(@dbrc.max_reconn).to eq(3)
+    end
+
+    example "max_reconn setter basic check" do
+      expect(@dbrc).to respond_to(:max_reconn=)
+    end
   end
 
 =begin
-  example "interval" do
-    expect(@dbrc).to respond_to(:interval)
-    expect(@dbrc).to respond_to(:interval=)
-    expect( @dbrc.interval).to be_kind_of(Numeric)
-  end
-
-  example "timeout" do
-    expect(@dbrc).to respond_to(:timeout)
-    expect(@dbrc).to respond_to(:timeout=)
-    expect(@dbrc).to respond_to(:time_out)
-    expect(@dbrc).to respond_to(:time_out=)
-    expect( @dbrc.timeout).to be_kind_of(Numeric)
-  end
-
-  example "max_reconn" do
-    expect(@dbrc).to respond_to(:max_reconn)
-    expect(@dbrc).to respond_to(:max_reconn=)
-    expect(@dbrc).to respond_to(:maximum_reconnects)
-    expect(@dbrc).to respond_to(:maximum_reconnects=)
-    expect( @dbrc.maximum_reconnects).to be_kind_of(Numeric)
-  end
-
-  example "sample_values" do
-    expect( @dbrc.database).to eq("foo")
-    expect( @dbrc.user).to eq("user1")
-    expect( @dbrc.passwd).to eq("pwd1")
-    expect( @dbrc.driver).to eq("Oracle")
-    expect( @dbrc.interval).to eq(60)
-    expect( @dbrc.timeout).to eq(40)
-    expect( @dbrc.max_reconn).to eq(3)
-    expect( @dbrc.dsn).to eq("dbi:Oracle:foo")
-  end
-
   # Same database, different user
   example "duplicate_database" do
     db = DBRC.new("foo", "user2", @dir)
