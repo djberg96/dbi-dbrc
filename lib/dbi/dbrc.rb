@@ -283,7 +283,7 @@ module DBI
 
   # A subclass of DBRC designed to handle .dbrc files in YAML format. The
   # public methods of this class are identical to DBRC.
-  class YML < DBRC
+  class DBRC::YML < DBRC
     require 'yaml'
 
     private
