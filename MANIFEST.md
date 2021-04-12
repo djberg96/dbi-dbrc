@@ -11,6 +11,6 @@
 * examples/xml_examples/test_xml.rb
 * examples/yml_examples/.dbrc
 * examples/yml_examples/test_yml.rb
-* test/test_dbi_dbrc.rb
-* test/test_dbi_dbrc_xml.rb
-* test/test_dbi_dbrc_yml.rb
+* spec/dbi_dbrc_spec.rb
+* spec/dbi_dbrc_xml_spec.rb
+* spec/dbi_dbrc_yml_spec.rb

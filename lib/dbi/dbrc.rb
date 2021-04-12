@@ -18,7 +18,7 @@ module DBI
     class Error < StandardError; end
 
     # The version of the dbi-dbrc library
-    VERSION = '1.4.1'.freeze
+    VERSION = '1.5.0'.freeze
 
     WINDOWS = File::ALT_SEPARATOR # :no-doc:
 
@@ -118,6 +118,7 @@ module DBI
         end
 
         @dbrc_file = File.join(home, '.dbrc')
+        dbrc_dir = home
       else
         raise Error, 'bad directory' unless File.directory?(dbrc_dir)
         @dbrc_file = File.join(dbrc_dir, '.dbrc')
@@ -220,7 +221,7 @@ module DBI
     # Parse the text out of the .dbrc file.  This is the only method you
     # need to redefine if writing your own config handler.
     def parse_dbrc_config_file(file=@dbrc_file)
-      IO.foreach(file){ |line|
+      File.foreach(file){ |line|
         next if line =~ /^#/    # Ignore comments
         db, user, pwd, driver, timeout, max, interval = line.split
 
@@ -253,7 +254,7 @@ module DBI
 
   # A subclass of DBRC designed to handle .dbrc files in XML format.  The
   # public methods of this class are identical to DBRC.
-  class XML < DBRC
+  class DBRC::XML < DBRC
     require 'rexml/document' # Good enough for small files
     include REXML
 
@@ -282,7 +283,7 @@ module DBI
 
   # A subclass of DBRC designed to handle .dbrc files in YAML format. The
   # public methods of this class are identical to DBRC.
-  class YML < DBRC
+  class DBRC::YML < DBRC
     require 'yaml'
 
     private
