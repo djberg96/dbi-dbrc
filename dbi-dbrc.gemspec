@@ -12,8 +12,6 @@ Gem::Specification.new do |spec|
   spec.test_files = Dir['test/test*.rb']
   spec.cert_chain = Dir['certs/*']
 
-  spec.extra_rdoc_files = ['README', 'CHANGES', 'MANIFEST']
-
   spec.add_development_dependency('rake')
   spec.add_development_dependency('rspec', '~> 3.9')
   spec.add_development_dependency('fakefs', '~> 1.3')

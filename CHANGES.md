@@ -1,3 +1,8 @@
+## 1.5.0 - 12-Apr-2021
+* Switched from test-unit to rspec, with corresponding changes in the
+  gemspec and Rakefile.
+* Switched doc files to markdown format.
+ 
 ## 1.4.1 - 14-Jan-2018
 * Fixed some test warnings.
 * Added metadata to gemspec.
@@ -43,7 +48,7 @@
 * Added a test for bogus dbrc_dir arguments.
 
 ## 1.1.5 - 3-Sep-2009
-* License changed to Artistic 2.0.
+* License changed to Artistic-2.0.
 * Some gemspec updates, including the license and description.
 * Renamed the test files. The ts_all.rb file was removed.
 * Added win32-process as a dependency on MS Windows.
