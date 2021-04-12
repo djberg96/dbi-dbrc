@@ -254,7 +254,7 @@ module DBI
 
   # A subclass of DBRC designed to handle .dbrc files in XML format.  The
   # public methods of this class are identical to DBRC.
-  class XML < DBRC
+  class DBRC::XML < DBRC
     require 'rexml/document' # Good enough for small files
     include REXML
 
