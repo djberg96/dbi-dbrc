@@ -2,6 +2,7 @@
 * Switched from test-unit to rspec, with corresponding changes in the
   gemspec and Rakefile.
 * Switched doc files to markdown format.
+* Added a Gemfile.
  
 ## 1.4.1 - 14-Jan-2018
 * Fixed some test warnings.
