@@ -262,7 +262,7 @@ module DBI
 
     def parse_dbrc_config_file(file = @dbrc_file)
       doc = Document.new(File.new(file))
-      fields = %w/user password driver interval timeout maximum_reconnects/
+      fields = %w[user password driver interval timeout maximum_reconnects]
       doc.elements.each('/dbrc/database') do |element|
         next unless element.attributes['name'] == database
         if @user
