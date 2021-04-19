@@ -99,7 +99,7 @@ module DBI
     #   # Find the first match for 'foo_user@some_database' under /usr/local
     #   DBI::DBRC.new('some_database', 'foo_usr', '/usr/local')
     #
-    def initialize(database, user=nil, dbrc_dir=nil)
+    def initialize(database, user = nil, dbrc_dir = nil)
       if dbrc_dir.nil?
         if WINDOWS
           home = Sys::Admin.get_user(Process.uid, :localaccount => true).dir
@@ -197,7 +197,7 @@ module DBI
     end
 
     # Check ownership and permissions
-    def check_file(file=@dbrc_file)
+    def check_file(file = @dbrc_file)
       File.open(file){ |f|
         # Permissions must be set to 600 or better on Unix systems.
         # Must be hidden on Win32 systems.
@@ -220,7 +220,7 @@ module DBI
 
     # Parse the text out of the .dbrc file.  This is the only method you
     # need to redefine if writing your own config handler.
-    def parse_dbrc_config_file(file=@dbrc_file)
+    def parse_dbrc_config_file(file = @dbrc_file)
       File.foreach(file){ |line|
         next if line =~ /^#/    # Ignore comments
         db, user, pwd, driver, timeout, max, interval = line.split
@@ -260,7 +260,7 @@ module DBI
 
     private
 
-    def parse_dbrc_config_file(file=@dbrc_file)
+    def parse_dbrc_config_file(file = @dbrc_file)
       doc = Document.new(File.new(file))
       fields = %w/user password driver interval timeout maximum_reconnects/
       doc.elements.each('/dbrc/database'){ |element|
@@ -288,7 +288,7 @@ module DBI
 
     private
 
-    def parse_dbrc_config_file(file=@dbrc_file)
+    def parse_dbrc_config_file(file = @dbrc_file)
       config = YAML.load(File.open(file))
       config.each{ |hash|
         hash.each{ |db, info|
