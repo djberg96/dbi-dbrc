@@ -170,7 +170,7 @@ module DBI
         end
       end.join(', ')
 
-      "#<#{self.class}:0x#{(self.object_id*2).to_s(16)} " << str << '>'
+      "#<#{self.class}:0x#{(object_id*2).to_s(16)} " << str << '>'
     end
 
     private
