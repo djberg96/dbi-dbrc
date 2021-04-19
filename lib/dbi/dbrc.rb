@@ -289,7 +289,7 @@ module DBI
     private
 
     def parse_dbrc_config_file(file = @dbrc_file)
-      config = YAML.load(File.open(file))
+      config = YAML.safe_load(File.open(file))
       config.each do |hash|
         hash.each do |db, info|
           next unless db == @database
