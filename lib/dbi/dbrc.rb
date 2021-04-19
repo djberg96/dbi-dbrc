@@ -25,10 +25,10 @@ module DBI
     # The database or host to be connected to.
     attr_accessor :database
 
-    alias :db :database
-    alias :db= :database=
-    alias :host :database
-    alias :host= :database=
+    alias db database
+    alias db= database=
+    alias host database
+    alias host= database=
 
     # The user name used for the database or host connection.
     attr_accessor :user
@@ -36,8 +36,8 @@ module DBI
     # The password associated with the database or host.
     attr_accessor :password
 
-    alias :passwd :password
-    alias :passwd= :password=
+    alias passwd password
+    alias passwd= password=
 
     # The driver associated with the database. This is used to internally to
     # construct the DSN.
@@ -49,14 +49,14 @@ module DBI
     # The maximum number of reconnects a program should make before giving up.
     attr_accessor :maximum_reconnects
 
-    alias :max_reconn :maximum_reconnects
-    alias :max_reconn= :maximum_reconnects=
+    alias max_reconn maximum_reconnects
+    alias max_reconn= maximum_reconnects=
 
     # The timeout, in seconds, for each connection attempt.
     attr_accessor :timeout
 
-    alias :time_out :timeout
-    alias :time_out= :timeout=
+    alias time_out timeout
+    alias time_out= timeout=
 
     # The interval, in seconds, between each connection attempt.
     attr_accessor :interval
