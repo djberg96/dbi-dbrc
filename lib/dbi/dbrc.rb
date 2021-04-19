@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 if File::ALT_SEPARATOR
   require 'win32/dir'
   require 'win32/file/attributes'
