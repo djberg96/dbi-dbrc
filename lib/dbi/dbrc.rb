@@ -160,13 +160,13 @@ module DBI
     # Ruby Object#inspect, except that the password field is filtered.
     #
     def inspect
-      str = instance_variables.map{ |iv|
+      str = instance_variables.map do |iv|
         if iv == '@password'
           "#{iv}=[FILTERED]"
         else
           "#{iv}=#{instance_variable_get(iv).inspect}"
         end
-      }.join(', ')
+      end.join(', ')
 
       "#<#{self.class}:0x#{(self.object_id*2).to_s(16)} " << str << '>'
     end
@@ -198,7 +198,7 @@ module DBI
 
     # Check ownership and permissions
     def check_file(file = @dbrc_file)
-      File.open(file){ |f|
+      File.open(file) do |f|
         # Permissions must be set to 600 or better on Unix systems.
         # Must be hidden on Win32 systems.
         if WINDOWS
@@ -215,13 +215,13 @@ module DBI
         unless f.stat.owned?
           raise Error, 'Not owner of .dbrc file'
         end
-      }
+      end
     end
 
     # Parse the text out of the .dbrc file.  This is the only method you
     # need to redefine if writing your own config handler.
     def parse_dbrc_config_file(file = @dbrc_file)
-      File.foreach(file){ |line|
+      File.foreach(file) do |line|
         next if line =~ /^#/    # Ignore comments
         db, user, pwd, driver, timeout, max, interval = line.split
 
@@ -238,7 +238,7 @@ module DBI
         @maximum_reconnects = max
         @interval           = interval
         return
-      }
+      end
 
       # If we reach here it means the database and/or user wasn't found
       if @user
@@ -263,19 +263,19 @@ module DBI
     def parse_dbrc_config_file(file = @dbrc_file)
       doc = Document.new(File.new(file))
       fields = %w/user password driver interval timeout maximum_reconnects/
-      doc.elements.each('/dbrc/database'){ |element|
+      doc.elements.each('/dbrc/database') do |element|
         next unless element.attributes['name'] == database
         if @user
           next unless element.elements['user'].text == @user
         end
-        fields.each{ |field|
+        fields.each do |field|
           val = element.elements[field]
           unless val.nil?
             send("#{field}=", val.text)
           end
-        }
+        end
        return
-      }
+      end
       # If we reach here it means the database and/or user wasn't found
       raise Error, "No record found for #{@user}@#{@database}"
     end
@@ -290,8 +290,8 @@ module DBI
 
     def parse_dbrc_config_file(file = @dbrc_file)
       config = YAML.load(File.open(file))
-      config.each{ |hash|
-        hash.each{ |db, info|
+      config.each do |hash|
+        hash.each do |db, info|
           next unless db == @database
           next unless @user == info['user'] if @user
           @user       = info['user']
@@ -301,8 +301,8 @@ module DBI
           @timeout    = info['timeout']
           @maximum_reconnects = info['maximum_reconnects']
           return
-        }
-      }
+        end
+      end
       # If we reach this point, it means the database wasn't found
       raise Error, "No entry found for #{@user}@#{@database}"
     end
