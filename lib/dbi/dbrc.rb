@@ -168,7 +168,7 @@ module DBI
         end
       }.join(', ')
 
-      "#<#{self.class}:0x#{(self.object_id*2).to_s(16)} " << str << ">"
+      "#<#{self.class}:0x#{(self.object_id*2).to_s(16)} " << str << '>'
     end
 
     private
@@ -203,17 +203,17 @@ module DBI
         # Must be hidden on Win32 systems.
         if WINDOWS
           unless File.hidden?(file)
-            raise Error, "The .dbrc file must be hidden"
+            raise Error, 'The .dbrc file must be hidden'
           end
         else
           unless (f.stat.mode & 077) == 0
-            raise Error, "Bad .dbrc file permissions"
+            raise Error, 'Bad .dbrc file permissions'
           end
         end
 
         # Only the owner may use it
         unless f.stat.owned?
-          raise Error, "Not owner of .dbrc file"
+          raise Error, 'Not owner of .dbrc file'
         end
       }
     end
@@ -263,10 +263,10 @@ module DBI
     def parse_dbrc_config_file(file=@dbrc_file)
       doc = Document.new(File.new(file))
       fields = %w/user password driver interval timeout maximum_reconnects/
-      doc.elements.each("/dbrc/database"){ |element|
-        next unless element.attributes["name"] == database
+      doc.elements.each('/dbrc/database'){ |element|
+        next unless element.attributes['name'] == database
         if @user
-          next unless element.elements["user"].text == @user
+          next unless element.elements['user'].text == @user
         end
         fields.each{ |field|
           val = element.elements[field]
@@ -293,13 +293,13 @@ module DBI
       config.each{ |hash|
         hash.each{ |db,info|
           next unless db == @database
-          next unless @user == info["user"] if @user
-          @user       = info["user"]
-          @password   = info["password"]
-          @driver     = info["driver"]
-          @interval   = info["interval"]
-          @timeout    = info["timeout"]
-          @maximum_reconnects = info["maximum_reconnects"]
+          next unless @user == info['user'] if @user
+          @user       = info['user']
+          @password   = info['password']
+          @driver     = info['driver']
+          @interval   = info['interval']
+          @timeout    = info['timeout']
+          @maximum_reconnects = info['maximum_reconnects']
           return
         }
       }
