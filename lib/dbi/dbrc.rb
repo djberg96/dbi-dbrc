@@ -271,7 +271,7 @@ module DBI
         fields.each{ |field|
           val = element.elements[field]
           unless val.nil?
-            send("#{field}=",val.text)
+            send("#{field}=", val.text)
           end
         }
        return
@@ -291,7 +291,7 @@ module DBI
     def parse_dbrc_config_file(file=@dbrc_file)
       config = YAML.load(File.open(file))
       config.each{ |hash|
-        hash.each{ |db,info|
+        hash.each{ |db, info|
           next unless db == @database
           next unless @user == info['user'] if @user
           @user       = info['user']
