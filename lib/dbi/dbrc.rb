@@ -224,7 +224,7 @@ module DBI
     # need to redefine if writing your own config handler.
     def parse_dbrc_config_file(file = @dbrc_file)
       File.foreach(file) do |line|
-        next if line =~ /^#/    # Ignore comments
+        next if line =~ /^#/ # Ignore comments
         db, user, pwd, driver, timeout, max, interval = line.split
 
         next unless @database == db
