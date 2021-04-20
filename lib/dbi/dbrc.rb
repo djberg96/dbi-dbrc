@@ -149,9 +149,7 @@ module DBI
         convert_numeric_strings()
         create_dsn_string()
       ensure
-        if WINDOWS && file_was_encrypted
-          File.encrypt(@dbrc_file)
-        end
+        File.encrypt(@dbrc_file) if WINDOWS && file_was_encrypted
       end
     end
 
@@ -196,19 +194,13 @@ module DBI
         # Permissions must be set to 600 or better on Unix systems.
         # Must be hidden on Win32 systems.
         if WINDOWS
-          unless File.hidden?(file)
-            raise Error, 'The .dbrc file must be hidden'
-          end
+          raise Error, 'The .dbrc file must be hidden' unless File.hidden?(file)
         else
-          unless (f.stat.mode & 0o77) == 0
-            raise Error, 'Bad .dbrc file permissions'
-          end
+          raise Error, 'Bad .dbrc file permissions' unless (f.stat.mode & 0o77) == 0
         end
 
         # Only the owner may use it
-        unless f.stat.owned?
-          raise Error, 'Not owner of .dbrc file'
-        end
+        raise Error, 'Not owner of .dbrc file' unless f.stat.owned?
       end
     end
 
@@ -257,9 +249,7 @@ module DBI
         end
         fields.each do |field|
           val = element.elements[field]
-          unless val.nil?
-            send("#{field}=", val.text)
-          end
+          send("#{field}=", val.text) unless val.nil?
         end
         break
       end
