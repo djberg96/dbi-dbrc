@@ -9,7 +9,6 @@ else
   require 'etc'
 end
 
-
 # The DBI module serves as a namespace only.
 module DBI
   # The DBRC class encapsulates a database resource config file.
@@ -168,20 +167,15 @@ module DBI
         end
       end.join(', ')
 
-      "#<#{self.class}:0x#{(object_id*2).to_s(16)} " << str << '>'
+      "#<#{self.class}:0x#{(object_id * 2).to_s(16)} " << str << '>'
     end
 
     private
 
     # Ensure that the user/password has been set
     def validate_data
-      unless @user
-        raise Error, "no user found associated with #{@database}"
-      end
-
-      unless @password
-        raise Error, "password not defined for #{@user}@#{@database}"
-      end
+      raise Error, "no user found associated with #{@database}" unless @user
+      raise Error, "password not defined for #{@user}@#{@database}" unless @password
     end
 
     # Converts strings that should be numbers into actual numbers
@@ -206,7 +200,7 @@ module DBI
             raise Error, 'The .dbrc file must be hidden'
           end
         else
-          unless (f.stat.mode & 077) == 0
+          unless (f.stat.mode & 0o77) == 0
             raise Error, 'Bad .dbrc file permissions'
           end
         end
