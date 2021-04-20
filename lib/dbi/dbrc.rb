@@ -12,15 +12,13 @@ end
 
 # The DBI module serves as a namespace only.
 module DBI
-
   # The DBRC class encapsulates a database resource config file.
   class DBRC
-
     # This error is raised if anything fails trying to read the config file.
     class Error < StandardError; end
 
     # The version of the dbi-dbrc library
-    VERSION = '1.5.0'.freeze
+    VERSION = '1.5.0'
 
     WINDOWS = File::ALT_SEPARATOR # :no-doc:
 
@@ -228,10 +226,7 @@ module DBI
         db, user, pwd, driver, timeout, max, interval = line.split
 
         next unless @database == db
-
-        if @user
-          next unless @user == user
-        end
+        next if @user && @user != user
 
         @user               = user
         @password           = pwd
@@ -239,19 +234,15 @@ module DBI
         @timeout            = timeout
         @maximum_reconnects = max
         @interval           = interval
-        return
+        break
       end
 
-      # If we reach here it means the database and/or user wasn't found
       if @user
-        err = "no record found for #{@user}@#{@database}"
+        raise Error, "no record found for #{@user}@#{@database}" unless @user
       else
-        err = "no record found for #{@database}"
+        raise Error, "no record found for #{@database}" unless @database
       end
-
-      raise Error, err
     end
-
   end
 
   # A subclass of DBRC designed to handle .dbrc files in XML format.  The
@@ -276,10 +267,10 @@ module DBI
             send("#{field}=", val.text)
           end
         end
-       return
+        break
       end
       # If we reach here it means the database and/or user wasn't found
-      raise Error, "No record found for #{@user}@#{@database}"
+      raise Error, "No record found for #{@user}@#{@database}" unless @user && @database
     end
   end
 
@@ -295,18 +286,18 @@ module DBI
       config.each do |hash|
         hash.each do |db, info|
           next unless db == @database
-          next unless @user == info['user'] if @user
-          @user       = info['user']
-          @password   = info['password']
-          @driver     = info['driver']
-          @interval   = info['interval']
-          @timeout    = info['timeout']
+          next if @user && @user != info['user']
+          @user = info['user']
+          @password = info['password']
+          @driver = info['driver']
+          @interval = info['interval']
+          @timeout = info['timeout']
           @maximum_reconnects = info['maximum_reconnects']
-          return
+          break
         end
       end
       # If we reach this point, it means the database wasn't found
-      raise Error, "No entry found for #{@user}@#{@database}"
+      raise Error, "No entry found for #{@user}@#{@database}" unless @user && @database
     end
   end
 end
