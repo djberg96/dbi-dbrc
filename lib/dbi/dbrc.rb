@@ -77,7 +77,7 @@ module DBI
     # file.
     #
     # If an entry cannot be found for the database, or database plus user
-    # combination, then a Error is raised.  If the .dbrc file cannot be
+    # combination, then a Error is raised. If the .dbrc file cannot be
     # found, or is setup improperly with regards to permissions or properties
     # then a DBI::DBRC::Error is raised.
     #
@@ -253,7 +253,7 @@ module DBI
 
         break
       end
-      # If we reach here it means the database and/or user wasn't found
+
       raise Error, "No record found for #{@user}@#{@database}" unless @user && @database
     end
   end
@@ -267,6 +267,7 @@ module DBI
 
     def parse_dbrc_config_file(file = @dbrc_file)
       config = YAML.safe_load(File.open(file))
+
       config.each do |hash|
         hash.each do |db, info|
           next unless db == @database
@@ -280,7 +281,7 @@ module DBI
           break
         end
       end
-      # If we reach this point, it means the database wasn't found
+
       raise Error, "No entry found for #{@user}@#{@database}" unless @user && @database
     end
   end
