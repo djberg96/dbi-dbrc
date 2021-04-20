@@ -244,13 +244,13 @@ module DBI
       fields = %w[user password driver interval timeout maximum_reconnects]
       doc.elements.each('/dbrc/database') do |element|
         next unless element.attributes['name'] == database
-        if @user
-          next unless element.elements['user'].text == @user
-        end
+        next if @user && @user != element.elements['user'].text
+
         fields.each do |field|
           val = element.elements[field]
           send("#{field}=", val.text) unless val.nil?
         end
+
         break
       end
       # If we reach here it means the database and/or user wasn't found
