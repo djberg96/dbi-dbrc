@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 if File::ALT_SEPARATOR
   require 'win32/dir'
   require 'win32/file/attributes'
@@ -7,28 +9,25 @@ else
   require 'etc'
 end
 
-
 # The DBI module serves as a namespace only.
 module DBI
-
   # The DBRC class encapsulates a database resource config file.
   class DBRC
-
     # This error is raised if anything fails trying to read the config file.
     class Error < StandardError; end
 
     # The version of the dbi-dbrc library
-    VERSION = '1.5.0'.freeze
+    VERSION = '1.5.0'
 
     WINDOWS = File::ALT_SEPARATOR # :no-doc:
 
     # The database or host to be connected to.
     attr_accessor :database
 
-    alias :db :database
-    alias :db= :database=
-    alias :host :database
-    alias :host= :database=
+    alias db database
+    alias db= database=
+    alias host database
+    alias host= database=
 
     # The user name used for the database or host connection.
     attr_accessor :user
@@ -36,8 +35,8 @@ module DBI
     # The password associated with the database or host.
     attr_accessor :password
 
-    alias :passwd :password
-    alias :passwd= :password=
+    alias passwd password
+    alias passwd= password=
 
     # The driver associated with the database. This is used to internally to
     # construct the DSN.
@@ -49,14 +48,14 @@ module DBI
     # The maximum number of reconnects a program should make before giving up.
     attr_accessor :maximum_reconnects
 
-    alias :max_reconn :maximum_reconnects
-    alias :max_reconn= :maximum_reconnects=
+    alias max_reconn maximum_reconnects
+    alias max_reconn= maximum_reconnects=
 
     # The timeout, in seconds, for each connection attempt.
     attr_accessor :timeout
 
-    alias :time_out :timeout
-    alias :time_out= :timeout=
+    alias time_out timeout
+    alias time_out= timeout=
 
     # The interval, in seconds, between each connection attempt.
     attr_accessor :interval
@@ -78,7 +77,7 @@ module DBI
     # file.
     #
     # If an entry cannot be found for the database, or database plus user
-    # combination, then a Error is raised.  If the .dbrc file cannot be
+    # combination, then a Error is raised. If the .dbrc file cannot be
     # found, or is setup improperly with regards to permissions or properties
     # then a DBI::DBRC::Error is raised.
     #
@@ -99,7 +98,7 @@ module DBI
     #   # Find the first match for 'foo_user@some_database' under /usr/local
     #   DBI::DBRC.new('some_database', 'foo_usr', '/usr/local')
     #
-    def initialize(database, user=nil, dbrc_dir=nil)
+    def initialize(database, user = nil, dbrc_dir = nil)
       if dbrc_dir.nil?
         if WINDOWS
           home = Sys::Admin.get_user(Process.uid, :localaccount => true).dir
@@ -150,9 +149,7 @@ module DBI
         convert_numeric_strings()
         create_dsn_string()
       ensure
-        if WINDOWS && file_was_encrypted
-          File.encrypt(@dbrc_file)
-        end
+        File.encrypt(@dbrc_file) if WINDOWS && file_was_encrypted
       end
     end
 
@@ -160,28 +157,23 @@ module DBI
     # Ruby Object#inspect, except that the password field is filtered.
     #
     def inspect
-      str = instance_variables.map{ |iv|
+      str = instance_variables.map do |iv|
         if iv == '@password'
           "#{iv}=[FILTERED]"
         else
           "#{iv}=#{instance_variable_get(iv).inspect}"
         end
-      }.join(', ')
+      end.join(', ')
 
-      "#<#{self.class}:0x#{(self.object_id*2).to_s(16)} " << str << ">"
+      "#<#{self.class}:0x#{(object_id * 2).to_s(16)} " << str << '>'
     end
 
     private
 
     # Ensure that the user/password has been set
     def validate_data
-      unless @user
-        raise Error, "no user found associated with #{@database}"
-      end
-
-      unless @password
-        raise Error, "password not defined for #{@user}@#{@database}"
-      end
+      raise Error, "no user found associated with #{@database}" unless @user
+      raise Error, "password not defined for #{@user}@#{@database}" unless @password
     end
 
     # Converts strings that should be numbers into actual numbers
@@ -197,39 +189,30 @@ module DBI
     end
 
     # Check ownership and permissions
-    def check_file(file=@dbrc_file)
-      File.open(file){ |f|
+    def check_file(file = @dbrc_file)
+      File.open(file) do |f|
         # Permissions must be set to 600 or better on Unix systems.
         # Must be hidden on Win32 systems.
         if WINDOWS
-          unless File.hidden?(file)
-            raise Error, "The .dbrc file must be hidden"
-          end
+          raise Error, 'The .dbrc file must be hidden' unless File.hidden?(file)
         else
-          unless (f.stat.mode & 077) == 0
-            raise Error, "Bad .dbrc file permissions"
-          end
+          raise Error, 'Bad .dbrc file permissions' unless (f.stat.mode & 0o77) == 0
         end
 
         # Only the owner may use it
-        unless f.stat.owned?
-          raise Error, "Not owner of .dbrc file"
-        end
-      }
+        raise Error, 'Not owner of .dbrc file' unless f.stat.owned?
+      end
     end
 
     # Parse the text out of the .dbrc file.  This is the only method you
     # need to redefine if writing your own config handler.
-    def parse_dbrc_config_file(file=@dbrc_file)
-      File.foreach(file){ |line|
-        next if line =~ /^#/    # Ignore comments
+    def parse_dbrc_config_file(file = @dbrc_file)
+      File.foreach(file) do |line|
+        next if line =~ /^#/ # Ignore comments
         db, user, pwd, driver, timeout, max, interval = line.split
 
         next unless @database == db
-
-        if @user
-          next unless @user == user
-        end
+        next if @user && @user != user
 
         @user               = user
         @password           = pwd
@@ -237,19 +220,15 @@ module DBI
         @timeout            = timeout
         @maximum_reconnects = max
         @interval           = interval
-        return
-      }
-
-      # If we reach here it means the database and/or user wasn't found
-      if @user
-        err = "no record found for #{@user}@#{@database}"
-      else
-        err = "no record found for #{@database}"
+        break
       end
 
-      raise Error, err
+      if @user
+        raise Error, "no record found for #{@user}@#{@database}" unless @user
+      else
+        raise Error, "no record found for #{@database}" unless @database
+      end
     end
-
   end
 
   # A subclass of DBRC designed to handle .dbrc files in XML format.  The
@@ -260,24 +239,22 @@ module DBI
 
     private
 
-    def parse_dbrc_config_file(file=@dbrc_file)
+    def parse_dbrc_config_file(file = @dbrc_file)
       doc = Document.new(File.new(file))
-      fields = %w/user password driver interval timeout maximum_reconnects/
-      doc.elements.each("/dbrc/database"){ |element|
-        next unless element.attributes["name"] == database
-        if @user
-          next unless element.elements["user"].text == @user
-        end
-        fields.each{ |field|
+      fields = %w[user password driver interval timeout maximum_reconnects]
+      doc.elements.each('/dbrc/database') do |element|
+        next unless element.attributes['name'] == database
+        next if @user && @user != element.elements['user'].text
+
+        fields.each do |field|
           val = element.elements[field]
-          unless val.nil?
-            send("#{field}=",val.text)
-          end
-        }
-       return
-      }
-      # If we reach here it means the database and/or user wasn't found
-      raise Error, "No record found for #{@user}@#{@database}"
+          send("#{field}=", val.text) unless val.nil?
+        end
+
+        break
+      end
+
+      raise Error, "No record found for #{@user}@#{@database}" unless @user && @database
     end
   end
 
@@ -288,23 +265,24 @@ module DBI
 
     private
 
-    def parse_dbrc_config_file(file=@dbrc_file)
-      config = YAML.load(File.open(file))
-      config.each{ |hash|
-        hash.each{ |db,info|
+    def parse_dbrc_config_file(file = @dbrc_file)
+      config = YAML.safe_load(File.open(file))
+
+      config.each do |hash|
+        hash.each do |db, info|
           next unless db == @database
-          next unless @user == info["user"] if @user
-          @user       = info["user"]
-          @password   = info["password"]
-          @driver     = info["driver"]
-          @interval   = info["interval"]
-          @timeout    = info["timeout"]
-          @maximum_reconnects = info["maximum_reconnects"]
-          return
-        }
-      }
-      # If we reach this point, it means the database wasn't found
-      raise Error, "No entry found for #{@user}@#{@database}"
+          next if @user && @user != info['user']
+          @user = info['user']
+          @password = info['password']
+          @driver = info['driver']
+          @interval = info['interval']
+          @timeout = info['timeout']
+          @maximum_reconnects = info['maximum_reconnects']
+          break
+        end
+      end
+
+      raise Error, "No entry found for #{@user}@#{@database}" unless @user && @database
     end
   end
 end
