@@ -6,6 +6,7 @@ if File::ALT_SEPARATOR
   require 'win32/process'
 else
   require 'etc'
+  require 'gpgme'
 end
 
 # The DBI module serves as a namespace only.
@@ -86,6 +87,9 @@ module DBI
     # storage mechanism. In that case simply treat the 'database' as the
     # host name, and ignore the DBI::DBRC#dsn and DBI::DBRC#driver methods.
     #
+    # On unixy systems you can GPG encrypt the file, and this library will
+    # decrypt it for you based on the +gpg_options+ that you pass.
+    #
     # Examples:
     #
     #   # Find the first match for 'some_database'
@@ -97,7 +101,10 @@ module DBI
     #   # Find the first match for 'foo_user@some_database' under /usr/local
     #   DBI::DBRC.new('some_database', 'foo_usr', '/usr/local')
     #
-    def initialize(database, user = nil, dbrc_dir = Dir.home)
+    #   # Pass along a GPG password to decrypt the file.
+    #   DBI::DBRC.new('some_database', 'foo_usr', '/usr/local', :gpg_options => {:password => 'xxx'})
+    #
+  def initialize(database, user = nil, dbrc_dir = Dir.home, gpg_options = nil)
       if dbrc_dir.nil?
         # Default to the app data directory on Windows, or root on Unix, if
         # no home dir can be found.
@@ -137,10 +144,19 @@ module DBI
           File.decrypt(@dbrc_file)
         end
 
-        parse_dbrc_config_file()
-        validate_data()
-        convert_numeric_strings()
-        create_dsn_string()
+        if gpg_options
+          require 'gpgme'
+          require 'stringio'
+          crypto = GPGME::Crypto.new(gpg_options)
+          stringio = crypto.decrypt(File.open(@dbrc_file))
+          parse_dbrc_config_file(stringio)
+        else
+          parse_dbrc_config_file
+        end
+
+        validate_data
+        convert_numeric_strings
+        create_dsn_string
       ensure
         File.encrypt(@dbrc_file) if WINDOWS && file_was_encrypted
       end
@@ -200,20 +216,26 @@ module DBI
     # Parse the text out of the .dbrc file.  This is the only method you
     # need to redefine if writing your own config handler.
     def parse_dbrc_config_file(file = @dbrc_file)
-      File.foreach(file) do |line|
-        next if line =~ /^#/ # Ignore comments
-        db, user, pwd, driver, timeout, max, interval = line.split
+      begin
+        fh = file.is_a?(StringIO) ? file : File.open(file)
 
-        next unless @database == db
-        next if @user && @user != user
+        fh.each_line do |line|
+          next if line =~ /^#/ # Ignore comments
+          db, user, pwd, driver, timeout, max, interval = line.split
 
-        @user               = user
-        @password           = pwd
-        @driver             = driver
-        @timeout            = timeout
-        @maximum_reconnects = max
-        @interval           = interval
-        break
+          next unless @database == db
+          next if @user && @user != user
+
+          @user               = user
+          @password           = pwd
+          @driver             = driver
+          @timeout            = timeout
+          @maximum_reconnects = max
+          @interval           = interval
+          break
+        end
+      ensure
+        fh.close
       end
 
       if @user
