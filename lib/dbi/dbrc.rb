@@ -250,13 +250,14 @@ module DBI
   # public methods of this class are identical to DBRC.
   class DBRC::XML < DBRC
     require 'rexml/document' # Good enough for small files
-    include REXML
 
     private
 
     def parse_dbrc_config_file(file = @dbrc_file)
-      doc = Document.new(File.new(file))
+      doc = REXML::Document.new(File.new(file))
+
       fields = %w[user password driver interval timeout maximum_reconnects]
+
       doc.elements.each('/dbrc/database') do |element|
         next unless element.attributes['name'] == database
         next if @user && @user != element.elements['user'].text
