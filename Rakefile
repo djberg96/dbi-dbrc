@@ -8,9 +8,9 @@ namespace :gem do
   desc "Create the dbi-dbrc gem"
   task :create => [:clean] do
     require 'rubygems/package'
-    spec = eval(IO.read('dbi-dbrc.gemspec'))
+    spec = Gem::Specification.load('dbi-dbrc.gemspec')
     spec.signing_key = File.join(Dir.home, '.ssh', 'gem-private_key.pem')
-    Gem::Package.build(spec, true)
+    Gem::Package.build(spec)
   end
 
   desc "Install the dbi-dbrc gem"
