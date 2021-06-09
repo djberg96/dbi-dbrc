@@ -1,3 +1,11 @@
+## 1.6.0 - 9-Jun-2021
+* Now supports gpg encrypted files, with a 4th optional parameter where you
+  can pass gpg options (usually a password, but whatever gpgme supports).
+* Added gpgme as a dependency.
+* Updated specs for MS Windows.
+* The "home" handling is now a bit simpler, as it was originally written
+  before that method existed in core Ruby.
+
 ## 1.5.0 - 12-Apr-2021
 * Switched from test-unit to rspec, with corresponding changes in the
   gemspec and Rakefile.
