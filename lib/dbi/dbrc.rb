@@ -4,7 +4,6 @@ if File::ALT_SEPARATOR
   require 'win32/dir'
   require 'win32/file/attributes'
   require 'win32/process'
-  require 'sys/admin'
 else
   require 'etc'
 end
@@ -98,14 +97,8 @@ module DBI
     #   # Find the first match for 'foo_user@some_database' under /usr/local
     #   DBI::DBRC.new('some_database', 'foo_usr', '/usr/local')
     #
-    def initialize(database, user = nil, dbrc_dir = nil)
+    def initialize(database, user = nil, dbrc_dir = Dir.home)
       if dbrc_dir.nil?
-        if WINDOWS
-          home = Sys::Admin.get_user(Process.uid, :localaccount => true).dir
-        else
-          home = Dir.home(Etc.getpwuid.name)
-        end
-
         # Default to the app data directory on Windows, or root on Unix, if
         # no home dir can be found.
         if home.nil?
