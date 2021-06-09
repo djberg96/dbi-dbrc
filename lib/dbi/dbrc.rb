@@ -149,7 +149,7 @@ module DBI
           require 'stringio'
           crypto = GPGME::Crypto.new(gpg_options)
           stringio = crypto.decrypt(File.open(@dbrc_file))
-          parse_dbrc_config_file(stringio)
+          parse_dbrc_config_file(StringIO.new(stringio.read))
         else
           parse_dbrc_config_file
         end
@@ -174,7 +174,7 @@ module DBI
         end
       end.join(', ')
 
-      "#<#{self.class}:0x#{(object_id * 2).to_s(16)} " << str << '>'
+      "#<#{self.class}:0x#{(object_id * 2).to_s(16)} " + str + '>'
     end
 
     private
@@ -235,7 +235,7 @@ module DBI
           break
         end
       ensure
-        fh.close
+        fh.close if fh && fh.respond_to?(:close)
       end
 
       if @user
