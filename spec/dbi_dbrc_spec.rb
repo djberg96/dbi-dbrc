@@ -62,7 +62,7 @@ RSpec.describe DBI::DBRC do
       end
     end
 
-    example "constructor raises an error if the permissions are invalid", :windows => false do
+    example "constructor raises an error if the permissions are invalid", :unix => true do
       File.chmod(0555, dbrc)
       expect{ described_class.new(db_foo, user1) }.to raise_error(described_class::Error)
     end
