@@ -43,7 +43,7 @@ RSpec.describe DBI::DBRC do
   end
 
   example "version" do
-    expect(described_class::VERSION).to eq('1.5.0')
+    expect(described_class::VERSION).to eq('1.6.0')
     expect(described_class::VERSION).to be_frozen
   end
 
