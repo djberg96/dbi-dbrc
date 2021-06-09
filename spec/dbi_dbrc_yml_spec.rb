@@ -49,6 +49,12 @@ RSpec.describe DBI::DBRC::YML, :yml => true do
 
   before do
     allow(Dir).to receive(:home).and_return(home)
+
+    if File::ALT_SEPARATOR
+      allow(FakeFS::File).to receive(:hidden?).and_return(true)
+      allow(FakeFS::File).to receive(:encrypted?).and_return(false)
+    end
+
     FileUtils.mkdir_p(home)
     File.open(dbrc, 'w'){ |fh| fh.write(yml) }
     File.chmod(0600, dbrc)
