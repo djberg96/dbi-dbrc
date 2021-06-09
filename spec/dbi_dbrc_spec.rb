@@ -115,10 +115,13 @@ RSpec.describe DBI::DBRC do
       expect(dbrc.dsn).to be_nil
     end
   end
-=begin
 
   context "instance methods" do
     before do
+      if File::ALT_SEPARATOR
+        allow(FakeFS::File).to receive(:hidden?).and_return(true)
+        allow(FakeFS::File).to receive(:encrypted?).and_return(false)
+      end
       @dbrc = DBI::DBRC.new(db_foo)
     end
 
@@ -241,5 +244,4 @@ RSpec.describe DBI::DBRC do
       expect(@dbrc).to respond_to(:max_reconn=)
     end
   end
-=end
 end
