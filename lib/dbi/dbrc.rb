@@ -254,7 +254,8 @@ module DBI
     private
 
     def parse_dbrc_config_file(file = @dbrc_file)
-      doc = REXML::Document.new(File.new(file))
+      file = file.is_a?(StringIO) ? file : File.new(file)
+      doc = REXML::Document.new(file)
 
       fields = %w[user password driver interval timeout maximum_reconnects]
 
@@ -282,7 +283,8 @@ module DBI
     private
 
     def parse_dbrc_config_file(file = @dbrc_file)
-      config = YAML.safe_load(File.open(file))
+      fh = file.is_a?(StringIO) ? file : File.open(file)
+      config = YAML.safe_load(fh)
 
       config.each do |hash|
         hash.each do |db, info|
