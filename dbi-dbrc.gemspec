@@ -2,7 +2,7 @@ require 'rubygems'
 
 Gem::Specification.new do |spec|
   spec.name       = 'dbi-dbrc'
-  spec.version    = '1.5.0'
+  spec.version    = '1.6.0'
   spec.author     = 'Daniel Berger'
   spec.email      = 'djberg96@gmail.com'
   spec.license    = 'Apache-2.0'
@@ -11,6 +11,8 @@ Gem::Specification.new do |spec|
   spec.files      = Dir['**/*'].reject{ |f| f.include?('git') }
   spec.test_files = Dir['test/test*.rb']
   spec.cert_chain = Dir['certs/*']
+
+  spec.add_dependency('gpgme', '~> 2.0')
 
   spec.add_development_dependency('rake')
   spec.add_development_dependency('rspec', '~> 3.9')
