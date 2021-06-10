@@ -13,7 +13,7 @@ module DBI
 
     def parse_dbrc_config_file(file = @dbrc_file)
       fh = file.is_a?(StringIO) ? file : File.open(file)
-      config = YAML.safe_load(fh)
+      config = ::YAML.safe_load(fh)
 
       config.each do |hash|
         hash.each do |db, info|
@@ -33,3 +33,5 @@ module DBI
     end
   end
 end
+
+DBI::DBRC::YAML = DBI::DBRC::YML # Alias
