@@ -5,6 +5,8 @@
 * dbi-dbrc.gemspec
 * certs/djberg96_pub.pem
 * lib/dbi/dbrc.rb
+* lib/dbi/dbrc/xml.rb
+* lib/dbi/dbrc/yaml.rb
 * examples/plain/.dbrc
 * examples/plain/test.rb
 * examples/xml_examples/.dbrc
