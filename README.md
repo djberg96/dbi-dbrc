@@ -1,12 +1,20 @@
 ## Description
-This is a supplement to the dbi library, allowing you to avoid hard-coding
-passwords in your programs that make database connections. It can also
-be used as a general password storage mechanism for other types of
+This is essentially a database connection configuration library, allowing you
+to avoid hard-coding passwords in your programs, and store other generalized
+information, when making database connections.
+
+It can also be used as a general password storage manager for other types of
 connections, e.g. ssh, ftp, etc.
 
+The name was originally based on the old DBI library (which in turn was based
+on the Perl library of the same name), and was originally meant as a supplement
+to that library. The DBI library is now defunct, but it not necessary to use
+this library. But, that explains why there's an outer "DBI" namespace module.
+
 ## Requirements
-For most platforms there are no additional requirements. However, for MS
-Windows there are these additional requirements:
+* gpgme - For GPG encrypted files (which you should be doing).
+
+For MS Windows there are these additional requirements:
 
 * sys-admin
 * win32-file-attributes
@@ -33,10 +41,10 @@ puts dbrc.dsn
 ```
 
 ## Notes on the .dbrc file
-This module relies on a file in your home directory called ".dbrc", and it
-is meant to be analogous to the ".netrc" file used by programs such as
-telnet. The .dbrc file has several conditions that must be met by the
-module or it will fail:
+This module relies on a file somewhere on your filesystem (normally your home
+directory) called ".dbrc", and it is meant to be analogous to the ".netrc" file
+used by programs such as telnet. The .dbrc file has several conditions that
+must be met by the module or it will fail:
 
 * Permissions must be set to 600 (Unix only).
 * Must be hidden (MS Windows only).
@@ -54,8 +62,7 @@ You may include comments in the .dbrc file by starting the line with a
 
 A failure in any of the rules mentioned above will result in a `DBRC::Error`
 being raised. In addition, the file may also be encrypted on MS Windows
-systems, in which case the file will automatically be (temporarily)
-decrypted.
+systems, in which case the file will automatically be (temporarily) decrypted.
 
 The format for XML (using the example above) is as follows:
 
@@ -90,7 +97,7 @@ The format for YAML is as follows:
 The current version of this library, returned as a String.
     
 ## Class Methods
-`DBRC.new(db, user=nil, dir=nil)`
+`DBRC.new(db, user = nil, dir = nil, gpg_options = nil)`
 
 The constructor takes one to three arguments. The first argument is the
 database name. This *must* be provided. If only the database name is
@@ -104,6 +111,10 @@ database *and* user name match.
 The third argument, also optional, specifies the directory where DBRC will
 look for the .dbrc file. By default, it looks in the pwuid (present
 working user id) home directory. The rules for a .dbrc file still apply.
+
+The fourth argument, if present, are options that are forwarded to the
+`GPGME::Crypto.new` constructor for GPG encrypted files. Typically this
+would at least be the :password option, but YMMV.
 
 MS Windows users should read the "Notes" section for how your home directory
 is determined.
@@ -209,7 +220,7 @@ not automatically reset the driver or database.
 ## Canonical Example
 ```ruby
 # This is a basic template for how I do things:
-
+require 'dbi'
 require 'dbi/dbrc'
 require 'timeout'
 
