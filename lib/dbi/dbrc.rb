@@ -249,3 +249,4 @@ end
 
 require_relative 'dbrc/xml'
 require_relative 'dbrc/yaml'
+require_relative 'dbrc/json'
