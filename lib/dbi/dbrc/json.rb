@@ -16,15 +16,16 @@ module DBI
         fh = file.is_a?(StringIO) ? file : File.open(file)
         config = ::JSON.parse(fh.read)
 
-        config.each do |db, info|
+        config.each do |hash|
+          db = hash.keys.first
           next unless db == @database
-          next if @user && @user != info['user']
-          @user = info['user']
-          @password = info['password']
-          @driver = info['driver']
-          @interval = info['interval']
-          @timeout = info['timeout']
-          @maximum_reconnects = info['maximum_reconnects']
+          next if @user && @user != hash[db]['user']
+          @user = hash[db]['user']
+          @password = hash[db]['password']
+          @driver = hash[db]['driver']
+          @interval = hash[db]['interval']
+          @timeout = hash[db]['timeout']
+          @maximum_reconnects = hash[db]['maximum_reconnects']
           break
         end
       ensure

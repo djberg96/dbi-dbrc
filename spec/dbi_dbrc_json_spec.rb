@@ -20,38 +20,46 @@ RSpec.describe DBI::DBRC::JSON, :json => true do
 
   let(:json){
     %q{
-{
-  "foo": {
-    "user": "user1",
-    "password": "pwd1",
-    "driver": "Oracle",
-    "interval": 60,
-    "timeout": 40,
-    "maximum_reconnects": 3
-  },
-  "foo": {
-    "user": "user2",
-    "password": "pwd2",
-    "driver": "OCI8",
-    "interval": 60,
-    "timeout": 60,
-    "maximum_reconnects": 4
-  },
-  "bar": {
-    "user": "user1",
-    "password": "pwd3",
-    "driver": "Oracle",
-    "interval": 30,
-    "timeout": 30,
-    "maximum_reconnects": 2
-  },
-  "baz": {
-    "user": "user3",
-    "password": "pwd4"
-  }
-}
-  }
+    [
+      {
+        "foo": {
+          "user": "user1",
+          "password": "pwd1",
+          "driver": "Oracle",
+          "interval": 60,
+          "timeout": 40,
+          "maximum_reconnects": 3
+        }
+      },
+      {
+        "foo": {
+          "user": "user2",
+          "password": "pwd2",
+          "driver": "OCI8",
+          "interval": 60,
+          "timeout": 60,
+          "maximum_reconnects": 4
+        }
+      },
+      {
+        "bar": {
+          "user": "user1",
+          "password": "pwd3",
+          "driver": "Oracle",
+          "interval": 30,
+          "timeout": 30,
+          "maximum_reconnects": 2
+        }
+      },
+      {
+        "baz": {
+          "user": "user3",
+          "password": "pwd4"
+        }
+      }
+    ]
     }
+}
 
   before do
     allow(Dir).to receive(:home).and_return(home)
