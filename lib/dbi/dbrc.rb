@@ -104,7 +104,7 @@ module DBI
     #   # Pass along a GPG password to decrypt the file.
     #   DBI::DBRC.new('some_database', 'foo_usr', '/usr/local', :gpg_options => {:password => 'xxx'})
     #
-  def initialize(database, user = nil, dbrc_dir = Dir.home, gpg_options = nil)
+    def initialize(database, user = nil, dbrc_dir = Dir.home, gpg_options = nil)
       if dbrc_dir.nil?
         # Default to the app data directory on Windows, or root on Unix, if
         # no home dir can be found.
