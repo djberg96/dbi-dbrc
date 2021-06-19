@@ -90,6 +90,23 @@ The format for YAML is as follows:
   timeout: 10
   max_reconn: 2
 ```
+
+The format for JSON is as follows:
+
+```json
+[
+  {
+    "foo": {
+      "user": "dan",
+      "password": "mypass",
+      "driver": "oracle",
+      "interval": 30,
+      "timeout": 10,
+      "maximum_reconnects": 2
+    }
+  }
+]
+```
    
 ## Constants
 `VERSION`
@@ -244,10 +261,6 @@ end
 ```
 
 ## Notes for MS Windows Users
-The `home` directory for Win32 users is determined by `ENV['USERPROFILE']`.
-If that is not set then `ENV['HOME']` is used. If that is not set, then
-the directory found by the sys-admin library is used.
-
 To make your file hidden, right click on the .dbrc file in your Explorer
 window, select "Properties" and check the "Hidden" checkbox.
 
@@ -257,18 +270,9 @@ party, which is a bit much to expect. However, if the file is encrypted,
 DBRC will attempt to decrypt it, parse it, and encrypt it again when done
 parsing.
 
-## Notes on running the test suite
-I cannot guarantee that the .dbrc files under the `examples`
-subdirectories maintain the appropriate properties. This can cause
-failures for the test suite (which uses these files).
-
-The only solution is to perform a `chmod 600 .dbrc` (on Unix) or set
-the properties to 'hidden' (on MS Windows) manually, for the file in
-question.
-   
 ## Summary
-These "methods" don't really do anything. They're simply meant as a
-convenience mechanism for you dbi connections, plus a little bit of
+These methods don't really "do" anything. They're simply meant as a
+convenience mechanism for your database connections, plus a little bit of
 obfuscation (for passwords).
 
 ## Adding your own configuration
@@ -282,7 +286,7 @@ Take a look at the XML and YML subclasses in dbrc.rb for two examples that
 you can work from.
    
 ## Future Plans
-Add DBI::DBRC::JSON.
+None at this time.
    
 ## Known Bugs
 I'm not positive about the dsn strings for databases other than Oracle.
