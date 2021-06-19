@@ -5,6 +5,7 @@
 * dbi-dbrc.gemspec
 * certs/djberg96_pub.pem
 * lib/dbi/dbrc.rb
+* lib/dbi/dbrc/json.rb
 * lib/dbi/dbrc/xml.rb
 * lib/dbi/dbrc/yaml.rb
 * examples/plain/.dbrc
@@ -14,5 +15,6 @@
 * examples/yml_examples/.dbrc
 * examples/yml_examples/test_yml.rb
 * spec/dbi_dbrc_spec.rb
+* spec/dbi_dbrc_json_spec.rb
 * spec/dbi_dbrc_xml_spec.rb
 * spec/dbi_dbrc_yml_spec.rb
