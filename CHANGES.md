@@ -1,3 +1,8 @@
+## 1.7.0 - 19-Jun-2021
+* Added a DBI::DBRC::JSON subclass, and corresponding specs, so you can now
+  store information in JSON format.
+* Updated and/or removed old information from the README file.
+
 ## 1.6.0 - 9-Jun-2021
 * Now supports gpg encrypted files, with a 4th optional parameter where you
   can pass gpg options (usually a password, but whatever gpgme supports).

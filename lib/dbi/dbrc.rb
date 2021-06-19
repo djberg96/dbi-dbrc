@@ -17,7 +17,7 @@ module DBI
     class Error < StandardError; end
 
     # The version of the dbi-dbrc library
-    VERSION = '1.6.0'
+    VERSION = '1.7.0'
 
     WINDOWS = File::ALT_SEPARATOR # :no-doc:
 
