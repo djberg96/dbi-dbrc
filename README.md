@@ -24,6 +24,9 @@ For MS Windows there are these additional requirements:
 ## Installation
 `gem install dbi-dbrc`
 
+## Adding the trusted cert
+`gem cert --add <(curl -Ls https://raw.githubusercontent.com/djberg96/dbi-dbrc/main/certs/djberg96_pub.pem)`
+
 ## Synopsis
 ```ruby
 require 'dbi/dbrc'
