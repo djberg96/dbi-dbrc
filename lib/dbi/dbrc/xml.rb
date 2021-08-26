@@ -1,7 +1,5 @@
 # frozen_string_literal: true
 
-require_relative '../dbrc'
-
 # The DBI module serves as a namespace only.
 module DBI
   # A subclass of DBRC designed to handle .dbrc files in XML format.  The
