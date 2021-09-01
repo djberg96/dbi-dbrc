@@ -1,3 +1,5 @@
+[![Ruby](https://github.com/djberg96/dbi-dbrc/actions/workflows/ruby.yml/badge.svg)](https://github.com/djberg96/dbi-dbrc/actions/workflows/ruby.yml)
+
 ## Description
 This is essentially a database connection configuration library, allowing you
 to avoid hard-coding passwords in your programs, and store other generalized
