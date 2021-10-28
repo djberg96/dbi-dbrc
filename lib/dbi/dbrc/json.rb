@@ -27,7 +27,7 @@ module DBI
           break
         end
       ensure
-        fh.close if fh && fh.respond_to?(:close)
+        fh.close if fh.respond_to?(:close)
       end
 
       raise Error, "No entry found for #{@user}@#{@database}" unless @user && @database

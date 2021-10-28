@@ -174,7 +174,7 @@ module DBI
         end
       end.join(', ')
 
-      "#<#{self.class}:0x#{(object_id * 2).to_s(16)} " + str + '>'
+      "#<#{self.class}:0x#{(object_id * 2).to_s(16)} #{str}>"
     end
 
     private
@@ -235,7 +235,7 @@ module DBI
           break
         end
       ensure
-        fh.close if fh && fh.respond_to?(:close)
+        fh.close if fh.respond_to?(:close)
       end
 
       if @user
