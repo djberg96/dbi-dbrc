@@ -42,19 +42,19 @@ RSpec.describe DBI::DBRC do
     allow_any_instance_of(FakeFS::File::Stat).to receive(:owned?).and_return(true)
   end
 
-  example "version" do
+  example 'version' do
     expect(described_class::VERSION).to eq('1.7.0')
     expect(described_class::VERSION).to be_frozen
   end
 
-  context "windows", :windows => true do
-    example "constructor raises an error unless the .dbrc file is hidden" do
+  context 'windows', :windows => true do
+    example 'constructor raises an error unless the .dbrc file is hidden' do
       allow(FakeFS::File).to receive(:hidden?).and_return(false)
       expect{ described_class.new(db_foo, user1) }.to raise_error(described_class::Error)
     end
   end
 
-  context "constructor" do
+  context 'constructor' do
     before do
       if File::ALT_SEPARATOR
         allow(FakeFS::File).to receive(:hidden?).and_return(true)
@@ -62,16 +62,16 @@ RSpec.describe DBI::DBRC do
       end
     end
 
-    example "constructor raises an error if the permissions are invalid", :unix => true do
+    example 'constructor raises an error if the permissions are invalid', :unix => true do
       File.chmod(0555, dbrc)
       expect{ described_class.new(db_foo, user1) }.to raise_error(described_class::Error)
     end
 
-    example "constructor raises an error if no database is provided" do
+    example 'constructor raises an error if no database is provided' do
       expect{ described_class.new }.to raise_error(ArgumentError)
     end
 
-    example "constructor works as expected with or without user" do
+    example 'constructor works as expected with or without user' do
       expect{ described_class.new(db_foo, user1) }.not_to raise_error
       expect{ described_class.new(db_foo, nil) }.not_to raise_error
     end
@@ -88,7 +88,7 @@ RSpec.describe DBI::DBRC do
       expect{ described_class.new(db_foo, user1, '/bogusXX') }.to raise_error(DBI::DBRC::Error)
     end
 
-    example "constructor returns expected values for the same database with different users" do
+    example 'constructor returns expected values for the same database with different users' do
       dbrc1 = described_class.new(db_foo, user1)
       dbrc2 = described_class.new(db_foo, user2)
       expect(dbrc1.database).to eq(dbrc2.database)
@@ -96,7 +96,7 @@ RSpec.describe DBI::DBRC do
       expect(dbrc2.user).to eq('user2')
     end
 
-    example "constructor returns expected values for the same user with different database" do
+    example 'constructor returns expected values for the same user with different database' do
       dbrc1 = described_class.new(db_foo, user1)
       dbrc2 = described_class.new(db_bar, user1)
       expect(dbrc1.user).to eq(dbrc2.user)
@@ -104,10 +104,10 @@ RSpec.describe DBI::DBRC do
       expect(dbrc2.database).to eq('bar')
     end
 
-    example "constructor works as expected if some optional fields are not defined" do
+    example 'constructor works as expected if some optional fields are not defined' do
       dbrc = described_class.new(db_baz)
-      expect(dbrc.user).to eq("user3")
-      expect(dbrc.passwd).to eq("pwd4")
+      expect(dbrc.user).to eq('user3')
+      expect(dbrc.passwd).to eq('pwd4')
       expect(dbrc.driver).to be_nil
       expect(dbrc.interval).to be_nil
       expect(dbrc.timeout).to be_nil
@@ -116,7 +116,7 @@ RSpec.describe DBI::DBRC do
     end
   end
 
-  context "instance methods" do
+  context 'instance methods' do
     before do
       if File::ALT_SEPARATOR
         allow(FakeFS::File).to receive(:hidden?).and_return(true)
@@ -125,122 +125,122 @@ RSpec.describe DBI::DBRC do
       @dbrc = DBI::DBRC.new(db_foo)
     end
 
-    example "basic database getter method and aliases" do
+    example 'basic database getter method and aliases' do
       expect(@dbrc).to respond_to(:database)
       expect(@dbrc.method(:database)).to eq(@dbrc.method(:db))
       expect(@dbrc.method(:database)).to eq(@dbrc.method(:host))
     end
 
-    example "basic database setter method and alias" do
+    example 'basic database setter method and alias' do
       expect(@dbrc).to respond_to(:database=)
       expect(@dbrc.method(:database=)).to eq(@dbrc.method(:db=))
     end
 
-    example "database method returns expected value" do
+    example 'database method returns expected value' do
       expect(@dbrc.database).to eq('foo')
     end
 
-    example "basic dbrc_dir check" do
+    example 'basic dbrc_dir check' do
       expect(@dbrc).to respond_to(:dbrc_dir)
     end
 
-    example "dbrc_dir returns the expected value" do
+    example 'dbrc_dir returns the expected value' do
       expect(@dbrc.dbrc_dir).to eq(home)
     end
 
-    example "basic dbrc_file check" do
+    example 'basic dbrc_file check' do
       expect(@dbrc).to respond_to(:dbrc_file)
     end
 
-    example "dbrc_file returns the expected value" do
+    example 'dbrc_file returns the expected value' do
       expect(File.basename(@dbrc.dbrc_file)).to eq('.dbrc')
     end
 
-    example "basic dsn getter check" do
+    example 'basic dsn getter check' do
       expect(@dbrc).to respond_to(:dsn)
     end
 
-    example "dsn method returns the expected value" do
+    example 'dsn method returns the expected value' do
       expect(@dbrc.dsn).to eq('dbi:Oracle:foo')
     end
 
-    example "basic dsn setter check" do
+    example 'basic dsn setter check' do
       expect(@dbrc).to respond_to(:dsn=)
     end
 
-    example "user getter basic check" do
+    example 'user getter basic check' do
       expect(@dbrc).to respond_to(:user)
     end
 
-    example "user method returns expected value" do
+    example 'user method returns expected value' do
       expect(@dbrc.user).to eq('user1')
     end
 
-    example "user setter basic check" do
+    example 'user setter basic check' do
       expect(@dbrc).to respond_to(:user=)
     end
 
-    example "password getter basic check and alias" do
+    example 'password getter basic check and alias' do
       expect(@dbrc).to respond_to(:password)
       expect(@dbrc.method(:password)).to eq(@dbrc.method(:passwd))
     end
 
-    example "password method returns expected value" do
-      expect(@dbrc.password).to eq("pwd1")
+    example 'password method returns expected value' do
+      expect(@dbrc.password).to eq('pwd1')
     end
 
-    example "password setter basic check and alias" do
+    example 'password setter basic check and alias' do
       expect(@dbrc).to respond_to(:password=)
       expect(@dbrc.method(:password=)).to eq(@dbrc.method(:passwd=))
     end
 
-    example "driver getter basic check" do
+    example 'driver getter basic check' do
       expect(@dbrc).to respond_to(:driver)
     end
 
-    example "driver method returns expected value" do
-      expect(@dbrc.driver).to eq("Oracle")
+    example 'driver method returns expected value' do
+      expect(@dbrc.driver).to eq('Oracle')
     end
 
-    example "driver setter basic check" do
+    example 'driver setter basic check' do
       expect(@dbrc).to respond_to(:driver=)
     end
 
-    example "interval getter basic check" do
+    example 'interval getter basic check' do
       expect(@dbrc).to respond_to(:interval)
     end
 
-    example "interval method returns expected value" do
+    example 'interval method returns expected value' do
       expect(@dbrc.interval).to eq(60)
     end
 
-    example "interval setter basic check" do
+    example 'interval setter basic check' do
       expect(@dbrc).to respond_to(:interval=)
     end
 
-    example "timeout getter basic check" do
+    example 'timeout getter basic check' do
       expect(@dbrc).to respond_to(:timeout)
       expect(@dbrc.method(:timeout)).to eq(@dbrc.method(:time_out))
     end
 
-    example "timeout method returns expected value" do
+    example 'timeout method returns expected value' do
       expect(@dbrc.timeout).to eq(40)
     end
 
-    example "timeout setter basic check" do
+    example 'timeout setter basic check' do
       expect(@dbrc).to respond_to(:timeout=)
     end
 
-    example "max_reconn getter basic check" do
+    example 'max_reconn getter basic check' do
       expect(@dbrc).to respond_to(:max_reconn)
       expect(@dbrc.method(:max_reconn)).to eq(@dbrc.method(:maximum_reconnects))
     end
 
-    example "max_reconn method returns expected value" do
+    example 'max_reconn method returns expected value' do
       expect(@dbrc.max_reconn).to eq(3)
     end
 
-    example "max_reconn setter basic check" do
+    example 'max_reconn setter basic check' do
       expect(@dbrc).to respond_to(:max_reconn=)
     end
   end

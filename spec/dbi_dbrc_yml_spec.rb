@@ -63,32 +63,32 @@ RSpec.describe DBI::DBRC::YML, :yml => true do
     allow_any_instance_of(FakeFS::File::Stat).to receive(:owned?).and_return(true)
   end
 
-  context "instance methods" do
+  context 'instance methods' do
     before do
       @dbrc = described_class.new(db_foo, user1)
     end
 
-    example "database method returns expected value" do
+    example 'database method returns expected value' do
       expect(@dbrc.database).to eq('foo')
     end
 
-    example "password method returns expected value" do
+    example 'password method returns expected value' do
       expect(@dbrc.password).to eq('pwd1')
     end
 
-    example "driver method returns expected value" do
+    example 'driver method returns expected value' do
       expect(@dbrc.driver).to eq('Oracle')
     end
 
-    example "interval method returns expected value" do
+    example 'interval method returns expected value' do
       expect(@dbrc.interval).to eq(60)
     end
 
-    example "timeout method returns expected value" do
+    example 'timeout method returns expected value' do
       expect(@dbrc.timeout).to eq(40)
     end
 
-    example "maximum_reconnects method returns expected value" do
+    example 'maximum_reconnects method returns expected value' do
       expect(@dbrc.maximum_reconnects).to eq(3)
     end
   end
