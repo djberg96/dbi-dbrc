@@ -124,7 +124,7 @@ RSpec.describe DBI::DBRC do
         allow(FakeFS::File).to receive(:hidden?).and_return(true)
         allow(FakeFS::File).to receive(:encrypted?).and_return(false)
       end
-      @dbrc = DBI::DBRC.new(db_foo)
+      @dbrc = described_class.new(db_foo)
     end
 
     example 'basic database getter method and aliases' do
