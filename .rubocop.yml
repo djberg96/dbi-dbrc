@@ -8,10 +8,16 @@ RSpec/FilePath:
   SpecSuffixOnly: true
 RSpec/InstanceVariable:
   Enabled: false
+RSpec/AnyInstance:
+  Enabled: false
 
 AllCops:
   NewCops: enable
 Lint/AssignmentInCondition:
+  Enabled: false
+Style/BlockDelimiters:
+  Enabled: false
+Style/PercentLiteralDelimiters:
   Enabled: false
 Style/MethodCallWithoutArgsParentheses:
   Enabled: false
@@ -24,6 +30,10 @@ Style/ConditionalAssignment:
 Style/GuardClause:
   Enabled: false
 Style/HashSyntax:
+  Enabled: false
+Style/NumericLiteralPrefix:
+  Enabled: false
+Style/RedundantPercentQ:
   Enabled: false
 Layout/EmptyLineAfterGuardClause:
   Enabled: false
