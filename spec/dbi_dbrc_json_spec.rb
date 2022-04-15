@@ -61,7 +61,7 @@ RSpec.describe DBI::DBRC::JSON, :json => true do
       }
     ]
     }
-}
+  }
 
   before do
     allow(Dir).to receive(:home).and_return(home)
@@ -72,7 +72,7 @@ RSpec.describe DBI::DBRC::JSON, :json => true do
     end
 
     FileUtils.mkdir_p(home)
-    File.open(dbrc, 'w'){ |fh| fh.write(json) }
+    File.write(dbrc, json)
     File.chmod(0600, dbrc)
 
     # FakeFS doesn't implement this yet

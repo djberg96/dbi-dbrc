@@ -58,7 +58,7 @@ RSpec.describe DBI::DBRC::YML, :yml => true do
     end
 
     FileUtils.mkdir_p(home)
-    File.open(dbrc, 'w'){ |fh| fh.write(yml) }
+    File.write(dbrc, yml)
     File.chmod(0600, dbrc)
 
     # FakeFS doesn't implement this yet
