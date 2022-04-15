@@ -13,6 +13,11 @@ RSpec/AnyInstance:
 
 AllCops:
   NewCops: enable
+  Exclude:
+    - Rakefile
+    - dbi-dbrc.gemspec
+    - Gemfile
+    - examples/**/*.rb
 Lint/AssignmentInCondition:
   Enabled: false
 Style/BlockDelimiters:
