@@ -61,7 +61,7 @@ RSpec.describe DBI::DBRC::JSON, :json => true do
       }
     ]
     }
-}
+  }
 
   before do
     allow(Dir).to receive(:home).and_return(home)
