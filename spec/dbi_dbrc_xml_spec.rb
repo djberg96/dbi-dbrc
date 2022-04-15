@@ -64,7 +64,7 @@ RSpec.describe DBI::DBRC::XML, :xml => true do
     end
 
     FileUtils.mkdir_p(home)
-    File.open(dbrc, 'w'){ |fh| fh.write(xml) }
+    File.write(dbrc, xml)
     File.chmod(0600, dbrc)
 
     # FakeFS doesn't implement this yet

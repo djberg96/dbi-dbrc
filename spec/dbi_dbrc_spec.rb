@@ -37,7 +37,7 @@ RSpec.describe DBI::DBRC do
   before do
     allow(Dir).to receive(:home).and_return(home)
     FileUtils.mkdir_p(home)
-    File.open(dbrc, 'w'){ |fh| fh.write(plain) }
+    File.write(dbrc, plain)
     File.chmod(0600, dbrc)
 
     # FakeFS doesn't implement this yet
