@@ -10,7 +10,7 @@ connections, e.g. ssh, ftp, etc.
 
 The name was originally based on the old DBI library (which in turn was based
 on the Perl library of the same name), and was originally meant as a supplement
-to that library. The DBI library is now defunct, but it not necessary to use
+to that library. The DBI library is now defunct, but it is not necessary to use
 this library. But, that explains why there's an outer "DBI" namespace module.
 
 ## Requirements
