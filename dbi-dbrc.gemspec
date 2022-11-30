@@ -12,7 +12,7 @@ Gem::Specification.new do |spec|
   spec.test_files = Dir['test/test*.rb']
   spec.cert_chain = Dir['certs/*']
 
-  spec.add_dependency('gpgme', '~> 2.0')
+  spec.add_dependency('gpgme', '~> 2.0.21')
   spec.add_dependency('rexml', '~> 3.2')
 
   spec.add_development_dependency('rake')
