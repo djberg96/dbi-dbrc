@@ -11,7 +11,7 @@ require 'rspec'
 require 'pp' # Need this to avoid fakefs error
 require 'fakefs/spec_helpers'
 
-RSpec.describe DBI::DBRC::YML, :yml => true do
+RSpec.describe DBI::DBRC::YML, :yml do
   include FakeFS::SpecHelpers
 
   let(:home) { File.join(Dir.pwd, 'home', 'someone') }

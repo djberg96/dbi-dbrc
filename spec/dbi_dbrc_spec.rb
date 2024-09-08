@@ -49,7 +49,7 @@ RSpec.describe DBI::DBRC do
     expect(described_class::VERSION).to be_frozen
   end
 
-  context 'windows', :windows => true do
+  context 'windows', :windows do
     example 'constructor raises an error unless the .dbrc file is hidden' do
       allow(FakeFS::File).to receive(:hidden?).and_return(false)
       expect{ described_class.new(db_foo, user1) }.to raise_error(described_class::Error)
@@ -64,7 +64,7 @@ RSpec.describe DBI::DBRC do
       end
     end
 
-    example 'constructor raises an error if the permissions are invalid', :unix => true do
+    example 'constructor raises an error if the permissions are invalid', :unix do
       File.chmod(0555, dbrc)
       expect{ described_class.new(db_foo, user1) }.to raise_error(described_class::Error)
     end
