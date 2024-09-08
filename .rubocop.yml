@@ -1,16 +1,18 @@
 require: rubocop-rspec
 
-RSpec/MultipleExpectations:
-  Max: 4
+RSpec/AnyInstance:
+  Enabled: false
 RSpec/ContextWording:
   Enabled: false
-RSpec/ReceiveMessages:
-  Enabled: false
-RSpec/SpecFilePathFormat:
+RSpec/IndexedLet:
   Enabled: false
 RSpec/InstanceVariable:
   Enabled: false
-RSpec/AnyInstance:
+RSpec/MultipleExpectations:
+  Max: 4
+RSpec/ReceiveMessages:
+  Enabled: false
+RSpec/SpecFilePathFormat:
   Enabled: false
 
 AllCops:
