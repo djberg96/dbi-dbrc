@@ -10,7 +10,7 @@ module DBI
     private
 
     def parse_dbrc_config_file(file = @dbrc_file)
-      file = file.is_a?(StringIO) ? file : File.new(file)
+      file = File.new(file) unless file.is_a?(StringIO)
       doc = REXML::Document.new(file)
 
       fields = %w[user password driver interval timeout maximum_reconnects]
