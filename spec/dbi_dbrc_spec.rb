@@ -9,7 +9,6 @@
 require 'dbi/dbrc'
 require 'fileutils'
 require 'spec_helper'
-require 'pp' # Requiring this ahead of fakefs to address a superclass issue.
 require 'fakefs/spec_helpers'
 
 RSpec.describe DBI::DBRC do

@@ -8,7 +8,6 @@
 ########################################################################
 require 'dbi/dbrc'
 require 'rspec'
-require 'pp' # Need this to avoid fakefs error
 require 'fakefs/spec_helpers'
 
 RSpec.describe DBI::DBRC::XML, :xml do
